@@ -1,0 +1,55 @@
+from discord import Bot, Guild, Member
+import os, json
+
+class Warning():
+    def __init__(self, bot: Bot):
+        self.bot: Bot = bot
+
+    def join_server(self, guild: Guild):
+        if 'data' not in os.listdir():
+            os.mkdir('data')
+        if str(guild.id) not in os.listdir('data/'):
+            os.mkdir(f'data/{guild.id}')
+            with open(f'data/{guild.id}/warnings.json', 'a') as file:
+                file.write('{}')
+
+    def new_member(self, user: Member, guild: Guild):
+        with open(f'data/{guild.id}/warnings.json', 'r') as file:
+            data = json.load(file)
+            if str(user.id) not in data.keys():
+                data[user.id] = {'warnings': []}
+            file.close()
+
+        with open(f'data/{guild.id}/warnings.json', 'w') as file:
+            json.dump(data, file, indent=4)
+        
+    def new_warn(self, user: Member, guild: Guild, author: Member, reason: str):
+        with open(f'data/{guild.id}/warnings.json', 'r') as file:
+            data = json.load(file)
+            warnings: list = data[str(user.id)]['warnings']
+            warn = {"author": author.id, "reason": reason}
+            warnings.append(warn)
+            file.close()
+
+        with open(f'data/{guild.id}/warnings.json', 'w') as file:
+            json.dump(data, file, indent=4)
+
+    def get_warnings(self, guild: Guild, user: Member):
+        with open(f'data/{guild.id}/warnings.json', 'r') as file:
+            data = json.load(file)
+            warnings: list = data[str(user.id)]['warnings']
+            return warnings
+
+    def remove_warning(self, guild: Guild, user: Member, warning_index=None):
+        with open(f'data/{guild.id}/warnings.json', 'r') as file:
+            data = json.load(file)
+            warnings: list = data[str(user.id)]['warnings']
+            if warning_index is not None:
+                warnings.pop(warning_index-1)
+            else:
+                warnings = []
+            file.close()
+
+        with open(f'data/{guild.id}/warnings.json', 'w') as file:
+            json.dump(data, file, indent=4)
+
