@@ -12,7 +12,9 @@ __It's very easy__
 
 - **Install the repository**
 
-```git clone https://github.com/feytus/Xeon.git```
+```
+git clone https://github.com/feytus/Xeon.git
+```
 
 - **Run ``setup.py`` and follow instructions**
 
