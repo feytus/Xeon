@@ -12,6 +12,7 @@ class Warning():
             os.mkdir(f'data/{guild.id}')
             with open(f'data/{guild.id}/warnings.json', 'a') as file:
                 file.write('{}')
+                file.close()
 
     def new_member(self, user: Member, guild: Guild):
         with open(f'data/{guild.id}/warnings.json', 'r') as file:
@@ -22,6 +23,7 @@ class Warning():
 
         with open(f'data/{guild.id}/warnings.json', 'w') as file:
             json.dump(data, file, indent=4)
+            file.close()
         
     def new_warn(self, user: Member, guild: Guild, author: Member, reason: str):
         with open(f'data/{guild.id}/warnings.json', 'r') as file:
@@ -33,11 +35,13 @@ class Warning():
 
         with open(f'data/{guild.id}/warnings.json', 'w') as file:
             json.dump(data, file, indent=4)
+            file.close()
 
     def get_warnings(self, guild: Guild, user: Member):
         with open(f'data/{guild.id}/warnings.json', 'r') as file:
             data = json.load(file)
             warnings: list = data[str(user.id)]['warnings']
+            file.close()
             return warnings
 
     def remove_warning(self, guild: Guild, user: Member, warning_index=None):
@@ -52,4 +56,5 @@ class Warning():
 
         with open(f'data/{guild.id}/warnings.json', 'w') as file:
             json.dump(data, file, indent=4)
+            file.close()
 
