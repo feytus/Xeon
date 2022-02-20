@@ -34,6 +34,16 @@ class Twitch_info(commands.Cog):
             headers=headers
         )
 
+        if info == {'error': 'Bad Request', 'status': 400, 'message': 'Invalid client id specified'}:
+            await ctx.respond(embed=Embed(
+            title="Error",
+            description=f"**{info['message']}**", color=get_color([0xf54531, 0xf57231, 0xf53145])),
+            ephemeral=True)
+
+            log = {"command": ctx.command, "author": ctx.author.id, "error": info['message']}
+            logger.warning(log)
+            return
+
         embed = Embed(title="Twitch informations", description=f"**Get some informations about {twitch_channel}**", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
         embed.add_field(name="Display name", value=twitch_channel, inline=True)
         embed.add_field(name="On stream", value=info['on_stream'], inline=True)
