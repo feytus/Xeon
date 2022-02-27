@@ -40,7 +40,7 @@ class Twitch_info(commands.Cog):
             description=f"**{info['message']}**", color=get_color([0xf54531, 0xf57231, 0xf53145])),
             ephemeral=True)
 
-            log = {"command": ctx.command, "author": ctx.author.id, "error": info['message']}
+            log = {"command": ctx.command, "author": ctx.author.id, "error": info}
             logger.warning(log)
             return
 
