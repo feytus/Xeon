@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 from discord.commands import slash_command
 from discord import Embed
@@ -6,7 +5,7 @@ from discord import ApplicationContext
 from discord import Option
 from discord import Bot
 
-from twitch_info import get_user_id, get_stream
+from twitch_info import get_user_id, get_stream, get_access_token
 
 from os import getenv
 from utils.utils import get_color
@@ -15,11 +14,6 @@ from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
 
-headers =  {
-        'Accept': 'application/vnd.twitchtv.v5+json',
-        'Client-ID': getenv('client_id'),
-        'Authorization': 'OAuth ' + getenv('acces_token'),
-    }
 
 class Twitch_info(commands.Cog):
     def __init__(self, bot):
@@ -28,33 +22,39 @@ class Twitch_info(commands.Cog):
     @slash_command(name="twitch_info", description="Get some informations about a twitch channel", guild_ids=guilds)
     async def twitch_info(self, ctx: ApplicationContext, twitch_channel: Option(str, description="The twitch channel to get informations from")):
         await ctx.defer(ephemeral=True)
+        acces_token = get_access_token(client_id=getenv('client_id'), client_secret=getenv('client_secret'))
+
+        user_id = get_user_id(
+            user_name=twitch_channel,
+            client_id=getenv('client_id'),
+            acces_token=acces_token
+            )
 
         info = get_stream(
-            user_id=get_user_id(twitch_channel, getenv('acces_token'), getenv('client_id')),
-            headers=headers
+            user_id=user_id,
+            client_id=getenv('client_id'),
+            acces_token=acces_token
         )
-
-        if info == {'error': 'Bad Request', 'status': 400, 'message': 'Invalid client id specified'}:
-            await ctx.respond(embed=Embed(
-            title="Error",
-            description=f"**{info['message']}**", color=get_color([0xf54531, 0xf57231, 0xf53145])),
-            ephemeral=True)
-
-            log = {"command": ctx.command, "author": ctx.author.id, "error": info}
-            logger.warning(log)
-            return
 
         embed = Embed(title="Twitch informations", description=f"**Get some informations about {twitch_channel}**", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
         embed.add_field(name="Display name", value=twitch_channel, inline=True)
-        embed.add_field(name="On stream", value=info['on_stream'], inline=True)
         
-        if info['on_stream']:
-            embed.add_field(name="Game", value=info['game'])
-            embed.add_field(name="Viewer count", value=info['viewer_count'])
-            embed.set_image(url=info['preview_image'])
-            embed.set_thumbnail(url=("https://static-cdn.jtvnw.net/ttv-boxart/" + info['game'].replace(" ", "%20") + ".jpg"))
-            embed.set_footer(text=info['date'])
+        if info == "This user is not streaming":
+            info = {'type': "Not streaming"}
 
+        if info['type'] == "live":
+            embed.description = "**" + info['title'] + "**"
+            embed.add_field(name="Statue", value="Streaming", inline=True)
+            embed.add_field(name="Game", value=info['game_name'])
+            embed.add_field(name="Viewer count", value=info['viewer_count'])
+            embed.add_field(name="language", value=info['language'] + f" :flag_{info['language']}:")
+
+            thumbail_url = info['thumbnail_url'].replace("{width}", "1080").replace("{height}", "600")
+            embed.set_image(url=thumbail_url)
+            embed.set_thumbnail(url=("https://static-cdn.jtvnw.net/ttv-boxart/" + info['game_name'].replace(" ", "%20") + ".jpg"))
+            embed.set_footer(text=info['started_at'])
+        else:
+             embed.add_field(name="Statue", value="Not streaming", inline=True)
 
         await ctx.respond(embed=embed, ephemeral=True)
 
