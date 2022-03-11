@@ -1,6 +1,6 @@
 from datetime import datetime
 from discord.ext import commands
-from discord import Game
+from discord import Game, Member, Embed
 from discord import Bot, Status
 
 from utils.utils import get_color

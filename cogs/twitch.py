@@ -1,3 +1,5 @@
+import datetime
+
 from discord.ext import commands
 from discord.commands import slash_command
 from discord import Embed
@@ -36,7 +38,11 @@ class Twitch_info(commands.Cog):
             acces_token=acces_token
         )
 
-        embed = Embed(title="Twitch informations", description=f"**Get some informations about {twitch_channel}**", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
+        embed = Embed(
+            title="Twitch informations", 
+            description=f"**Get some informations about {twitch_channel}**", 
+            color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]),
+            timestamp = datetime.datetime.utcnow())
         embed.add_field(name="Display name", value=twitch_channel, inline=True)
         
         if info == "This user is not streaming":

@@ -1,8 +1,9 @@
 import discord
+import datetime
+
 from discord.ext import commands
 from discord.ext.commands import bot_has_permissions
-from discord import ApplicationCommand, Embed, Interaction, SelectOption, slash_command
-from discord.embeds import EmbedProxy
+from discord import Embed, Interaction, SelectOption, slash_command
 
 from utils.utils import all_commands, get_color
 from utils.logs import logger
@@ -23,7 +24,11 @@ class Dropdown(discord.ui.Select):
         )
 
     async def callback(self, interaction: discord.Interaction):
-        embed = Embed(title="Help", description=f"**Get some help about __{self.values[0].casefold()}__**", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
+        embed = Embed(
+            title="Help", 
+            description=f"**Get some help about __{self.values[0].casefold()}__**", 
+            color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]),
+            timestamp = datetime.datetime.utcnow())
         if self.values[0] != "All commands":
             embed.add_field(name="Description", value=all_commands[self.values[0]]['description'])
             embed.add_field(name="Utilisation", value=f"``{all_commands[self.values[0]]['utilisation']}``")
@@ -53,7 +58,7 @@ class Help_command(commands.Cog):
     async def help(self, ctx: Interaction):
         view = DropdownView()
 
-        embed = Embed(title="Help", description=f"Get some help about commands", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
+        embed = Embed(title="Help", description=f"Get some help about commands", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]), timestamp = datetime.datetime.utcnow())
         await ctx.response.send_message(embed=embed, view=view, ephemeral=True)
 
         log = {

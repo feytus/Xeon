@@ -1,9 +1,9 @@
-from distutils.log import error
+import datetime
 import discord
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import GuildSticker, Member, Option, Guild
+from discord import Member, Option
 from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
@@ -32,19 +32,19 @@ class Warn(commands.Cog):
         guild: discord.Guild = ctx.guild
 
         warning = Warning(self.bot)
-
         warning.new_member(user=user, guild=guild)
-
         warning.new_warn(user=user, guild=guild, author=ctx.author, reason=reason)
 
-        embed_user = Embed(description=f"**You received a warning on the server {ctx.guild.name} !**", color=0xcc0202)
+        embed_user = Embed(description=f"**You received a warning on the server {ctx.guild.name} !**", color=0xcc0202, timestamp = datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
         await user.send(embed=embed_user)
 
         embed=Embed(
             description=f"**{user}** has been **warned** :white_check_mark:", 
-            color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]))
+            color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+            timestamp = datetime.datetime.utcnow()
+            )
 
         await ctx.respond(embed=embed, ephemeral=True)
 

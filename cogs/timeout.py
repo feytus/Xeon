@@ -33,7 +33,7 @@ class Timeout(commands.Cog):
 
         await ctx.defer(ephemeral=True)
         
-        embed_user = Embed(description=f"**You have been timed out from {ctx.guild.name} !**", color=0xcc0202)
+        embed_user = Embed(description=f"**You have been timed out from {ctx.guild.name} !**", color=0xcc0202, timestamp = datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
         embed_user.add_field(name="Duration", value=f"{duration} {time}(s)", inline=True)
@@ -46,7 +46,8 @@ class Timeout(commands.Cog):
         await ctx.respond(
             embed=Embed(
                 description=f"**{user}** has been **timed out for {duration} {time}** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52])), 
+                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+                timestamp = datetime.datetime.utcnow()), 
             ephemeral=True)
         
         log = {"action": "timeout", "author": {

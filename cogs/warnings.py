@@ -1,5 +1,5 @@
-from distutils.log import error
 import discord
+import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
@@ -39,7 +39,8 @@ class Warnings(commands.Cog):
         embed=Embed(
             title="Warnings",
             description=f"{user} has no warnings",
-            color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]))
+            color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+            timestamp = datetime.datetime.utcnow())
 
         if len(warnings) > 0:
             embed.description=f"**List of all the warnings from {user}** :"
@@ -48,7 +49,7 @@ class Warnings(commands.Cog):
             i += 1
             author = await self.bot.fetch_user(warn['author'])
             embed.add_field(
-                inline=True, 
+                inline=False, 
                 name=f"Warning {i}", 
                 value=f"**Moderator** : {author.mention}\n**Reason** : ``{warn['reason']}``"
                 )

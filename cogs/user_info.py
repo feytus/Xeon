@@ -1,4 +1,6 @@
 import discord
+import datetime
+
 from discord.ext import commands
 from discord.commands import slash_command
 from discord import Bot, Embed
@@ -25,8 +27,12 @@ class User_info(commands.Cog):
         if user is None:
             user: Member = ctx.user
 
-        embed = Embed(title="User informations",
-                            description=f"**Get some informations** about {user.mention}", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
+        embed = Embed(
+            title="User informations",
+            description=f"**Get some informations** about {user.mention}", 
+            color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]),
+            timestamp = datetime.datetime.utcnow())
+            
         embed.add_field(name="Full nickname", value=user, inline=True)
         embed.add_field(name="ID", value=user.id, inline=True)
         embed.add_field(name="Roles in the server",

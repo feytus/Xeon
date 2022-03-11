@@ -1,4 +1,5 @@
 import discord
+import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
@@ -23,9 +24,10 @@ class Kick(commands.Cog):
     async def kick(self, ctx: ApplicationContext, user: Option(Member, description="The user to kick"), reason: Option(str, description="The reason for kicking", required=True)):
         await ctx.defer(ephemeral=True)
 
-        embed_user = Embed(description=f"**You have been kicked from {ctx.guild.name} !**", color=0xcc0202)
+        embed_user = Embed(description=f"**You have been kicked from {ctx.guild.name} !**", color=0xcc0202, timestamp = datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
+        embed_user.timestamp = datetime.datetime.utcnow()
         await user.send(embed=embed_user)
 
         await ctx.guild.kick(user=user, reason=reason)
@@ -33,7 +35,8 @@ class Kick(commands.Cog):
         await ctx.respond(
             embed=Embed(
                 description=f"**{user}** has been **kicked** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52])), 
+                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+                timestamp = datetime.datetime.utcnow()), 
             ephemeral=True)
 
         log = {"action": "kick", "author": {

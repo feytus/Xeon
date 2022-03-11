@@ -1,4 +1,5 @@
 from asyncio.log import logger
+import datetime
 from datetime import timedelta
 import discord
 
@@ -29,7 +30,7 @@ class Tempban(commands.Cog):
             reason: Option(str, description="The reason for banning temporarily")):
         await ctx.defer(ephemeral=True)
 
-        embed_user = Embed(description=f"**You have been temporarily banned from {ctx.guild.name} !**", color=0xcc0202)
+        embed_user = Embed(description=f"**You have been temporarily banned from {ctx.guild.name} !**", color=0xcc0202, timestamp = datetime.datetime.utcnow())
         
         user: Member = user
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
@@ -46,7 +47,8 @@ class Tempban(commands.Cog):
         await ctx.respond(
             embed=Embed(
                 description=f"**{user}** has been **banned for {duration} {time}** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52])), 
+                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+                timestamp = datetime.datetime.utcnow()), 
             ephemeral=True)
 
         await sleep(time_duration.total_seconds())

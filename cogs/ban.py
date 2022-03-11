@@ -1,5 +1,6 @@
 import discord
 
+import datetime
 from discord.ext import commands
 from discord.commands import slash_command
 from discord import Option
@@ -24,7 +25,7 @@ class Ban(commands.Cog):
     async def ban(self, ctx: ApplicationContext, user: Option(Member, description="The user to ban"), reason: Option(str, "The reason for banning")):
         await ctx.defer(ephemeral=True)
 
-        embed_user = Embed(description=f"**You have been banned from {ctx.guild.name} !**", color=0xcc0202)
+        embed_user = Embed(description=f"**You have been banned from {ctx.guild.name} !**", color=0xcc0202, timestamp = datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
         await user.send(embed=embed_user)
@@ -34,7 +35,8 @@ class Ban(commands.Cog):
         await ctx.respond(
             embed=Embed(
                 description=f"**{user.name}** has been **banned** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52])), 
+                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+                timestamp = datetime.datetime.utcnow()), 
             ephemeral=True)
 
         log = {"action": "ban", "author": {

@@ -1,8 +1,9 @@
 import discord
+import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import GuildSticker, Option, User
+from discord import Option, User
 from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
@@ -30,7 +31,7 @@ class Unban(commands.Cog):
 
         banned_users_list = await guild.bans()
 
-        embed = Embed(title="Unban", description="**This user is not banned** :white_check_mark:", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
+        embed = Embed(title="Unban", description="**This user is not banned** :white_check_mark:", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]), timestamp = datetime.datetime.utcnow())
 
         log = {
             "action": "unban", 

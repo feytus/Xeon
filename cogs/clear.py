@@ -1,5 +1,6 @@
 import discord
 
+import datetime
 from discord.ext import commands
 from discord.commands import slash_command
 from discord import Option
@@ -29,8 +30,9 @@ class Clear(commands.Cog):
             await ctx.channel.purge(limit=amount)
         await ctx.respond(
             embed=Embed(
-                description=f"**{amount} message(s)** has been **deleted** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52])), 
+                description=f"**{amount} message(s)** ha(ve)s been **deleted** :white_check_mark:", 
+                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+                timestamp = datetime.datetime.utcnow()), 
             ephemeral=True)
 
         log = {

@@ -8,7 +8,10 @@ from dotenv import load_dotenv
 
 start = time.perf_counter()
 
-bot = commands.Bot(command_prefix=".", Intents=Intents.all())
+intents = Intents.all()
+intents.members = True
+
+bot = commands.Bot(command_prefix=".", Intents=intents)
 
 guilds=[809410416685219853, 803981117069852672]
 
@@ -27,6 +30,7 @@ async def unload(ctx: ApplicationContext, extension):
 for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
         bot.load_extension(f"cogs.{filename[:-3]}")
+
 
 bot.run(os.getenv('token'))
 

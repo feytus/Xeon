@@ -1,9 +1,9 @@
-from distutils.log import error
+import datetime
 import discord
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import GuildSticker, Member, Option, Guild
+from discord import Member, Option, Guild
 from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
@@ -40,11 +40,13 @@ class Remove_warning(commands.Cog):
         if warning_number is not None:
             embed=Embed(
                 description=f"You have **removed a warn from {user}** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]))
+                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+                timestamp = datetime.datetime.utcnow())
         else:
             embed=Embed(
                 description=f"You have **removed all warnings from {user}** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]))
+                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+                timestamp = datetime.datetime.utcnow())
 
         await ctx.respond(embed=embed, ephemeral=True)
 

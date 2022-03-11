@@ -1,4 +1,5 @@
 import discord
+import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
@@ -26,7 +27,11 @@ class Ban_list(commands.Cog):
 
         banned_users_list = await guild.bans()
 
-        embed = Embed(title="List of banned users", description="Get a list of all banned members", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
+        embed = Embed(
+            title="List of banned users", 
+            description="Get a list of all banned members", 
+            color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]),
+            timestamp = datetime.datetime.utcnow())
 
         for banned_users in banned_users_list:
             embed.add_field(name=f"{banned_users.user.name}#{banned_users.user.discriminator}",
