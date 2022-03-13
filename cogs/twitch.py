@@ -43,6 +43,7 @@ class Twitch_info(commands.Cog):
             description=f"**Get some informations about {twitch_channel}**", 
             color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]),
             timestamp = datetime.datetime.utcnow())
+
         embed.add_field(name="Display name", value=twitch_channel, inline=True)
         
         if info == "This user is not streaming":
@@ -58,7 +59,6 @@ class Twitch_info(commands.Cog):
             thumbail_url = info['thumbnail_url'].replace("{width}", "1080").replace("{height}", "600")
             embed.set_image(url=thumbail_url)
             embed.set_thumbnail(url=("https://static-cdn.jtvnw.net/ttv-boxart/" + info['game_name'].replace(" ", "%20") + ".jpg"))
-            embed.set_footer(text=info['started_at'])
         else:
              embed.add_field(name="Statue", value="Not streaming", inline=True)
 

@@ -25,7 +25,7 @@ class Ban(commands.Cog):
     async def ban(self, ctx: ApplicationContext, user: Option(Member, description="The user to ban"), reason: Option(str, "The reason for banning")):
         await ctx.defer(ephemeral=True)
 
-        embed_user = Embed(description=f"**You have been banned from {ctx.guild.name} !**", color=0xcc0202, timestamp = datetime.datetime.utcnow())
+        embed_user = Embed(description=f"**You have been banned from {ctx.guild.name} !**", color=get_color([0xf54531, 0xf57231, 0xf53145]), timestamp = datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
         await user.send(embed=embed_user)
