@@ -1,6 +1,8 @@
+from discord.commands import SlashCommand
 from random import randint
 from datetime import timedelta
-from discord import Bot, Guild, Member, SelectOption
+from discord import SelectOption
+
 
 all_commands = {
             "timeout": {"description": "Timeout a member of the discord", "utilisation": "/timeout [user] [duration] [time] [*reason]"},

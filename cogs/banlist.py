@@ -1,9 +1,8 @@
-import discord
 import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import GuildSticker, Option
+from discord import Guild
 from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
@@ -23,7 +22,7 @@ class Ban_list(commands.Cog):
     async def ban_list(self, ctx: ApplicationContext):
         await ctx.defer(ephemeral=True)
 
-        guild: discord.Guild = ctx.guild
+        guild: Guild = ctx.guild
 
         banned_users_list = await guild.bans()
 

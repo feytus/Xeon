@@ -1,10 +1,8 @@
-import discord
 import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Option, User
-from discord import Embed
+from discord import Option, User, Guild, Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
@@ -27,7 +25,7 @@ class Unban(commands.Cog):
         reason: Option(str, description="The reaon for unbanning this user", required=False)="No reason given"):
         await ctx.defer(ephemeral=True)
 
-        guild: discord.Guild = ctx.guild
+        guild: Guild = ctx.guild
 
         banned_users_list = await guild.bans()
 

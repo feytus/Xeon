@@ -1,18 +1,15 @@
 import datetime
-import discord
 
 from discord.ext import commands
-from discord.commands import slash_command
-from discord import Option
-from discord import Embed
-from discord import ApplicationContext
 from discord.ext.commands import bot_has_permissions, has_permissions
-from discord import Member
+from discord.commands import slash_command
+from discord import Option, Embed, ApplicationContext,  Member
 
 from utils.logs import logger
 from utils.utils import get_color, time_to_second
 
-guilds=[809410416685219853, 803981117069852672]
+guilds = [809410416685219853, 803981117069852672]
+
 
 class Timeout(commands.Cog):
     def __init__(self, bot):
@@ -27,16 +24,19 @@ class Timeout(commands.Cog):
             description="Duration"
         ), time: Option(
             str,
-            description="Time", 
-            choices=["second", "minute", "hour", "day", "week", "month"]), 
+            description="Time",
+            choices=["second", "minute", "hour", "day", "week", "month"]),
             reason: Option(str, description="The reason for timing them out")):
 
         await ctx.defer(ephemeral=True)
-        
-        embed_user = Embed(description=f"**You have been timed out from {ctx.guild.name} !**", color=get_color([0xf54531, 0xf57231, 0xf53145]), timestamp = datetime.datetime.utcnow())
-        embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
+
+        embed_user = Embed(description=f"**You have been timed out from {ctx.guild.name} !**", color=get_color(
+            [0xf54531, 0xf57231, 0xf53145]), timestamp=datetime.datetime.utcnow())
+        embed_user.add_field(
+            name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
-        embed_user.add_field(name="Duration", value=f"{duration} {time}(s)", inline=True)
+        embed_user.add_field(
+            name="Duration", value=f"{duration} {time}(s)", inline=True)
 
         time_duration = time_to_second(time, duration)
 
@@ -45,17 +45,18 @@ class Timeout(commands.Cog):
 
         await ctx.respond(
             embed=Embed(
-                description=f"**{user}** has been **timed out for {duration} {time}** :white_check_mark:", 
+                description=f"**{user}** has been **timed out for {duration} {time}** :white_check_mark:",
                 color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
-                timestamp = datetime.datetime.utcnow()), 
+                timestamp=datetime.datetime.utcnow()),
             ephemeral=True)
-        
+
         log = {"action": "timeout", "author": {
-            "id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator}, 
+            "id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
             "user": {"id": user.id, "name": user.display_name+"#"+ctx.user.discriminator}, "duration": duration, "time": time, "reason": reason,
             "guild": ctx.guild.id}
 
         logger.info(log)
+
 
 def setup(bot):
     bot.add_cog(Timeout(bot))

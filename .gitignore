@@ -5,6 +5,8 @@ venv/
 data/
 logs/
 
+cogs/blague.py
+
 utils/__pycache__
 cogs/__pycache__
 __pycache__/

@@ -1,12 +1,9 @@
-import discord
 import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
 from discord import Bot, Embed
-from discord import ApplicationContext
-from discord import Option
-from discord import Member
+from discord import ApplicationContext, Member, Option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.utils import get_color
@@ -46,7 +43,8 @@ class User_info(commands.Cog):
 
         log = {
             "action": "user_info", 
-            "author": {"id": user.id, "name": user.display_name+"#"+user.discriminator},
+            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+            "user": {"id": user.id, "name": user.display_name+"#"+user.discriminator},
             "guild": ctx.guild.id
             }
 

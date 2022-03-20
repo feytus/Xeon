@@ -1,9 +1,8 @@
-import discord
 import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import GuildSticker, Member, Option, Guild
+from discord import Member, Option, Guild
 from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
@@ -28,7 +27,7 @@ class Warnings(commands.Cog):
         user: Option(Member, description="The user to get warning", required=True)):
         await ctx.defer(ephemeral=True)
 
-        guild: discord.Guild = ctx.guild
+        guild: Guild = ctx.guild
 
         warning = Warning(self.bot)
 

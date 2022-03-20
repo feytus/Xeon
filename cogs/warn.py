@@ -1,10 +1,8 @@
 import datetime
-import discord
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Member, Option
-from discord import Embed
+from discord import Member, Option, Guild, Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
@@ -29,7 +27,7 @@ class Warn(commands.Cog):
         reason: Option(str, description="The reason for warning this user", required=True)):
         await ctx.defer(ephemeral=True)
 
-        guild: discord.Guild = ctx.guild
+        guild: Guild = ctx.guild
 
         warning = Warning(self.bot)
         warning.new_member(user=user, guild=guild)

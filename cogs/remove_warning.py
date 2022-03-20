@@ -1,5 +1,4 @@
 import datetime
-import discord
 
 from discord.ext import commands
 from discord.commands import slash_command
@@ -29,7 +28,7 @@ class Remove_warning(commands.Cog):
         warning_number: Option(int, description="The number of the warning", required=False)):
         await ctx.defer(ephemeral=True)
 
-        guild: discord.Guild = ctx.guild
+        guild: Guild = ctx.guild
 
         warning = Warning(self.bot)
 

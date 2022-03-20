@@ -1,7 +1,6 @@
-from asyncio.log import logger
 import datetime
+
 from datetime import timedelta
-import discord
 
 from discord.ext import commands
 from discord.commands import slash_command
@@ -14,6 +13,7 @@ from discord.ext.commands import bot_has_permissions, has_permissions
 from asyncio import sleep
 
 from utils.utils import get_color, time_to_second
+from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
 
