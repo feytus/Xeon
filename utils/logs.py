@@ -38,6 +38,5 @@ file_handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:
 
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setFormatter(CustomFormatter())
-console_handler.setLevel(logging.INFO)
 
 logger.handlers = [file_handler, console_handler]
