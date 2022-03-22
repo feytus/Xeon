@@ -11,7 +11,7 @@ start = time.perf_counter()
 
 intents = Intents.all()
 
-bot = commands.Bot(command_prefix=".", Intents=intents)
+bot = commands.Bot(command_prefix=".", intents=intents)
 
 guilds=[809410416685219853, 803981117069852672]
 

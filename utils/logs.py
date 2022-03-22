@@ -22,7 +22,7 @@ FORMATS = {
     logging.ERROR: fmt.format(Fore.RED, Fore.RESET),
     logging.WARNING: fmt.format(Fore.YELLOW, Fore.RESET),
     logging.CRITICAL: fmt.format(Fore.MAGENTA, Fore.RESET),
-}
+}   
 
 class CustomFormatter(logging.Formatter):
     def format(self, record: LogRecord) -> str:

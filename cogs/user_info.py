@@ -37,7 +37,7 @@ class User_info(commands.Cog):
         embed.add_field(name="Highest role",
                         value=user.top_role, inline=False)
         embed.add_field(name="Join the server", value=user.joined_at.strftime('%Y-%m-%d-%H'))
-        embed.set_thumbnail(url=user.avatar)
+        embed.set_thumbnail(url=user.display_avatar)
 
         await ctx.respond(embed=embed, ephemeral=True)
 

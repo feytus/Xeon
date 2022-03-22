@@ -1,4 +1,5 @@
 import datetime
+import discord
 
 from discord.ext import commands
 from discord import Embed, Member, Game, Status
@@ -27,7 +28,7 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print(self.xeon)
-        print("latency :", round(self.bot.latency * 1000), "ms")
+        logger.info(msg="latency : " + str(round(self.bot.latency * 1000)) + " ms")
 
         activity = Game(name="https://github.com/feytus/Xeon", type=3)
         await self.bot.change_presence(status=Status.online, activity=activity)
@@ -37,12 +38,16 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, user: Member):
+        user = user.guild.get_member(user.id)
+
         if user.guild.system_channel is not None:
             embed = Embed(title=f"Welcome {user} !",
-                            description=f"{user} joined the server !", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
-            embed.set_thumbnail(url=user.avatar)
-            embed.timestamp = user.joined_at.timestamp()
-            user.guild.system_channel.send(embed=embed)
+                            description=f"**{user.mention} joined the server !**", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]))
+            embed.set_author(name=user.guild.name, icon_url=user.guild.icon)
+            embed.set_thumbnail(url=user.display_avatar)
+            embed.timestamp = user.joined_at
+            
+            await user.guild.system_channel.send(embed=embed)
 
         log = {
             "action": "member_join", 
