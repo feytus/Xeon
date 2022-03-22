@@ -46,11 +46,11 @@ class Events(commands.Cog):
             embed.set_author(name=user.guild.name, icon_url=user.guild.icon)
             embed.set_thumbnail(url=user.display_avatar)
             embed.timestamp = user.joined_at
-            
+
             await user.guild.system_channel.send(embed=embed)
 
         log = {
-            "action": "member_join", 
+            "action": "on_member_join", 
             "user": {"id": user.id, "name": user.display_name+"#"+user.discriminator},
             "guild": user.guild.id
             }
