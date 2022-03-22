@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 start = time.perf_counter()
 
 intents = Intents.all()
-intents.members = True
 
 bot = commands.Bot(command_prefix=".", Intents=intents)
 
