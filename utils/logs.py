@@ -37,7 +37,7 @@ file_handler = logging.FileHandler(filename=f"logs/{date}.log", encoding='utf-8'
 file_handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 
 console_handler = logging.StreamHandler(sys.stdout)
-console_handler.setFormatter(CustomFormatter(), style="%(")
+console_handler.setFormatter(CustomFormatter())
 console_handler.setLevel(logging.INFO)
 
 logger.handlers = [file_handler, console_handler]
