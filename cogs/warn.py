@@ -6,7 +6,7 @@ from discord import Member, Option, Guild, Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-from utils.utils import get_color
+from utils.utils import colors
 from utils.warning import Warning
 from utils.logs import logger
 
@@ -33,7 +33,7 @@ class Warn(commands.Cog):
         warning.new_member(user=user, guild=guild)
         warning.new_warn(user=user, guild=guild, author=ctx.author, reason=reason)
 
-        embed_user = Embed(description=f"**You received a warning on the server {ctx.guild.name} !**", color=get_color([0xf54531, 0xf57231, 0xf53145]), timestamp = datetime.datetime.utcnow())
+        embed_user = Embed(description=f"**You received a warning on the server {ctx.guild.name} !**", color=colors["sanction"], timestamp=datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
         await user.send(embed=embed_user)
@@ -41,7 +41,7 @@ class Warn(commands.Cog):
         embed=Embed(
             description=f"**{user}** has been **warned** :white_check_mark:", 
             color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
-            timestamp = datetime.datetime.utcnow()
+            timestamp=datetime.datetime.utcnow()
             )
 
         await ctx.respond(embed=embed, ephemeral=True)

@@ -3,7 +3,6 @@ from random import randint
 from datetime import timedelta
 from discord import SelectOption
 
-
 all_commands = {
             "timeout": {"description": "Timeout a member of the discord", "utilisation": "/timeout [user] [duration] [time] [*reason]"},
             "user_info": {"description": "Get some informations about a member of the discord", "utilisation": "/user_info [*user]"},
@@ -22,6 +21,11 @@ command = [SelectOption(label=command[0], description=command[1]['description'])
 
 def get_color(colors: list):
     return colors[randint(0, len(colors)-1)]
+
+colors = {
+            "lite": get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+            "sanction": get_color([0xf54531, 0xf57231, 0xf53145])
+        }
 
 def time_to_second(time, duration):
     duration = int(duration)

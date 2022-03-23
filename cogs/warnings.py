@@ -7,7 +7,7 @@ from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-from utils.utils import get_color
+from utils.utils import colors
 from utils.warning import Warning
 from utils.logs import logger
 
@@ -39,7 +39,7 @@ class Warnings(commands.Cog):
             title="Warnings",
             description=f"{user} has no warnings",
             color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
-            timestamp = datetime.datetime.utcnow())
+            timestamp=datetime.datetime.utcnow())
 
         if len(warnings) > 0:
             embed.description=f"**List of all the warnings from {user}** :"

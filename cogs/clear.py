@@ -7,7 +7,7 @@ from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-from utils.utils import get_color
+from utils.utils import colors
 from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
@@ -30,8 +30,8 @@ class Clear(commands.Cog):
         await ctx.respond(
             embed=Embed(
                 description=f"**{amount} message(s)** ha(ve)s been **deleted** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
-                timestamp = datetime.datetime.utcnow()), 
+                color=0x40e66c,
+                timestamp=datetime.datetime.utcnow()), 
             ephemeral=True)
 
         log = {

@@ -1,7 +1,9 @@
-from discord import Bot, Guild, Member
-import os, json
+import os
+import json
 
-class Warning():
+from discord import Bot, Guild, Member
+
+class Warning:
     def __init__(self, bot: Bot):
         self.bot: Bot = bot
 

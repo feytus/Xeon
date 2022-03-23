@@ -6,7 +6,7 @@ from discord import Option, User, Guild, Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-from utils.utils import get_color
+from utils.utils import colors
 from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
@@ -29,7 +29,7 @@ class Unban(commands.Cog):
 
         banned_users_list = await guild.bans()
 
-        embed = Embed(title="Unban", description="**This user is not banned** :white_check_mark:", color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]), timestamp = datetime.datetime.utcnow())
+        embed = Embed(title="Error", description="**This user is not banned** :white_check_mark:", color=colors['sanction'], timestamp=datetime.datetime.utcnow())
 
         log = {
             "action": "unban", 

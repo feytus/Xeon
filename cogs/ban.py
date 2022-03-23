@@ -10,7 +10,7 @@ from discord import Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.logs import logger
-from utils.utils import get_color
+from utils.utils import colors
 
 guilds=[809410416685219853, 803981117069852672]
 
@@ -24,7 +24,7 @@ class Ban(commands.Cog):
     async def ban(self, ctx: ApplicationContext, user: Option(Member, description="The user to ban"), reason: Option(str, "The reason for banning")):
         await ctx.defer(ephemeral=True)
 
-        embed_user = Embed(description=f"**You have been banned from {ctx.guild.name} !**", color=get_color([0xf54531, 0xf57231, 0xf53145]), timestamp = datetime.datetime.utcnow())
+        embed_user = Embed(description=f"**You have been banned from {ctx.guild.name} !**", color=colors["sanction"], timestamp=datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
         await user.send(embed=embed_user)
@@ -34,8 +34,8 @@ class Ban(commands.Cog):
         await ctx.respond(
             embed=Embed(
                 description=f"**{user.name}** has been **banned** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
-                timestamp = datetime.datetime.utcnow()), 
+                color=0x40e66c,
+                timestamp=datetime.datetime.utcnow()), 
             ephemeral=True)
 
         log = {"action": "ban", "author": {

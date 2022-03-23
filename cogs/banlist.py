@@ -7,7 +7,7 @@ from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-from utils.utils import get_color
+from utils.utils import colors
 from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
@@ -29,8 +29,8 @@ class Ban_list(commands.Cog):
         embed = Embed(
             title="List of banned users", 
             description="Get a list of all banned members", 
-            color=get_color([0x42c5f5, 0xf54275, 0x70fc6d]),
-            timestamp = datetime.datetime.utcnow())
+            color=colors['lite'],
+            timestamp=datetime.datetime.utcnow())
 
         for banned_users in banned_users_list:
             embed.add_field(name=f"{banned_users.user.name}#{banned_users.user.discriminator}",

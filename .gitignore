@@ -5,8 +5,10 @@ venv/
 data/
 logs/
 
+cogs/__pycache__
 cogs/blague.py
 
 utils/__pycache__
-cogs/__pycache__
+utils/channel_logging.py
+
 __pycache__/

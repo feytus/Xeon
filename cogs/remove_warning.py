@@ -7,7 +7,7 @@ from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-from utils.utils import get_color
+from utils.utils import colors
 from utils.warning import Warning
 from utils.logs import logger
 
@@ -39,13 +39,13 @@ class Remove_warning(commands.Cog):
         if warning_number is not None:
             embed=Embed(
                 description=f"You have **removed a warn from {user}** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
-                timestamp = datetime.datetime.utcnow())
+                color=0x40e66c,
+                timestamp=datetime.datetime.utcnow())
         else:
             embed=Embed(
                 description=f"You have **removed all warnings from {user}** :white_check_mark:", 
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
-                timestamp = datetime.datetime.utcnow())
+                color=0x40e66c,
+                timestamp=datetime.datetime.utcnow())
 
         await ctx.respond(embed=embed, ephemeral=True)
 

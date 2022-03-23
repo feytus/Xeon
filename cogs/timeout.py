@@ -6,7 +6,7 @@ from discord.commands import slash_command
 from discord import Option, Embed, ApplicationContext,  Member
 
 from utils.logs import logger
-from utils.utils import get_color, time_to_second
+from utils.utils import colors, time_to_second
 
 guilds = [809410416685219853, 803981117069852672]
 
@@ -30,8 +30,10 @@ class Timeout(commands.Cog):
 
         await ctx.defer(ephemeral=True)
 
-        embed_user = Embed(description=f"**You have been timed out from {ctx.guild.name} !**", color=get_color(
-            [0xf54531, 0xf57231, 0xf53145]), timestamp=datetime.datetime.utcnow())
+        embed_user = Embed(
+            description=f"**You have been timed out from {ctx.guild.name} !**", 
+            color=colors['sanction'], 
+            timestamp=datetime.datetime.utcnow())
         embed_user.add_field(
             name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
@@ -46,14 +48,16 @@ class Timeout(commands.Cog):
         await ctx.respond(
             embed=Embed(
                 description=f"**{user}** has been **timed out for {duration} {time}** :white_check_mark:",
-                color=get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
+                color=0x40e66c,
                 timestamp=datetime.datetime.utcnow()),
             ephemeral=True)
 
-        log = {"action": "timeout", "author": {
-            "id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+        log = {
+            "action": "timeout", 
+            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
             "user": {"id": user.id, "name": user.display_name+"#"+ctx.user.discriminator}, "duration": duration, "time": time, "reason": reason,
-            "guild": ctx.guild.id}
+            "guild": ctx.guild.id
+            }
 
         logger.info(log)
 
