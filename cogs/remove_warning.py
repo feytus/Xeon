@@ -7,8 +7,9 @@ from discord import Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-from utils.utils import colors
 from utils.warning import Warning
+from utils.embed_logging import EmbedLogging
+from utils.config import Config
 from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
@@ -17,6 +18,9 @@ guilds=[809410416685219853, 803981117069852672]
 class Remove_warning(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
+        self.config = Config(bot)
+        self.warning = Warning(bot)
+        self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="remove_warning", description="Remove a warning from a member of the discord", guild_ids=guilds)
     @has_permissions(manage_roles=True)
@@ -30,11 +34,8 @@ class Remove_warning(commands.Cog):
 
         guild: Guild = ctx.guild
 
-        warning = Warning(self.bot)
-
-        warning.new_member(user=user, guild=guild)
-
-        warning.remove_warning(guild=guild, user=user, warning_index=warning_number)
+        self.warning.new_member(user=user, guild=guild)
+        self.warning.remove_warning(guild=guild, user=user, warning_index=warning_number)
 
         if warning_number is not None:
             embed=Embed(
@@ -49,12 +50,26 @@ class Remove_warning(commands.Cog):
 
         await ctx.respond(embed=embed, ephemeral=True)
 
+        channel_logging = self.bot.get_channel(
+            self.config.get_config(ctx.guild).get("channel_logging")
+            )
+
+        if channel_logging is not None:
+            embed_logging = self.embed_logging.get_embed(
+                data={
+                    "action": "remove_warning",
+                    "author": ctx.user.id,
+                    "user": user.id,
+                }
+            )
+            await channel_logging.send(embed=embed_logging)
+
         log = {
-            "action": "warn", 
+            "action": "remove_warning", 
             "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
             "user": {"id": user.id, "name": user.display_name+"#"+user.discriminator},
             "warning_number": warning_number,
-            "guild": guild
+            "guild": {"id": guild.id, "name": guild.name}
             }
 
         logger.info(log)

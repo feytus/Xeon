@@ -6,8 +6,7 @@ from discord import Bot, Embed
 from discord import ApplicationContext, Member, Option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-#from utils.channel_logging import EmbedLogging
-from utils.utils import colors
+from utils.color import Color
 from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
@@ -28,7 +27,7 @@ class User_info(commands.Cog):
         embed = Embed(
             title="User informations",
             description=f"**Get some informations** about {user.mention}", 
-            color=colors['lite'],
+            color=Color.get_color("lite"),
             timestamp=datetime.datetime.utcnow())
             
         embed.add_field(name="Full nickname", value=user, inline=True)
@@ -39,14 +38,14 @@ class User_info(commands.Cog):
                         value=user.top_role, inline=False)
         embed.add_field(name="Join the server", value=user.joined_at.strftime('%Y-%m-%d-%H'))
         embed.set_thumbnail(url=user.display_avatar)
-        
+
         await ctx.respond(embed=embed, ephemeral=True)
         
         log = {
             "action": "user_info", 
             "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
             "user": {"id": user.id, "name": user.display_name+"#"+user.discriminator},
-            "guild": ctx.guild.id
+            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
 
         logger.info(log)

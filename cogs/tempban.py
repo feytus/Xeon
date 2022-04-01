@@ -12,14 +12,19 @@ from discord.ext.commands import bot_has_permissions, has_permissions
 
 from asyncio import sleep
 
-from utils.utils import colors, time_to_second
+from utils.color import Color
+from utils.utils import time_to_second
 from utils.logs import logger
+from utils.embed_logging import EmbedLogging
+from utils.config import Config
 
 guilds=[809410416685219853, 803981117069852672]
 
 class Tempban(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
+        self.config = Config(bot)
+        self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="tempban", description="Temporarily ban member of the discord", guild_ids=guilds)
     @has_permissions(moderate_members=True)
@@ -30,7 +35,7 @@ class Tempban(commands.Cog):
             reason: Option(str, description="The reason for banning temporarily")):
         await ctx.defer(ephemeral=True)
 
-        embed_user = Embed(description=f"**You have been temporarily banned from {ctx.guild.name} !**", color=colors["sanction"], timestamp=datetime.datetime.utcnow())
+        embed_user = Embed(description=f"**You have been temporarily banned from {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())
         
         user: Member = user
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
@@ -44,6 +49,23 @@ class Tempban(commands.Cog):
         time_duration: timedelta = time_to_second(time, duration)
         await ctx.guild.ban(user, reason=reason)
 
+        channel_logging = self.bot.get_channel(
+            self.config.get_config(ctx.guild).get("channel_logging")
+            )
+
+        if channel_logging is not None:
+            embed_logging = self.embed_logging.get_embed(
+                data={
+                    "action": "tempban",
+                    "author": ctx.user.id,
+                    "user": user.id,
+                    "duration": duration,
+                    "time": time,
+                    "reason": reason
+                }
+            )
+            await channel_logging.send(embed=embed_logging)
+
         await ctx.respond(
             embed=Embed(
                 description=f"**{user}** has been **banned for {duration} {time}** :white_check_mark:", 
@@ -54,10 +76,12 @@ class Tempban(commands.Cog):
         await sleep(time_duration.total_seconds())
         await ctx.guild.unban(user, reason="End of the ban")
 
-        log = {"action": "tempban", "author": {
-            "id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator}, 
+        log = {
+            "action": "tempban", 
+            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator}, 
             "user": {"id": user.id, "name": user.display_name+"#"+ctx.user.discriminator}, "duration": duration, "time": time, "reason": reason,
-            "guild": ctx.guild.id}
+            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
+            }
 
         logger.info(log)
         

@@ -6,14 +6,18 @@ from discord import Option, User, Guild, Embed
 from discord import ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
-from utils.utils import colors
+from utils.config import Config
+from utils.embed_logging import EmbedLogging
+from utils.color import Color
 from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
 
 class Unban(commands.Cog):
     def __init__(self, bot):
-        self.bot: Bot = bot  
+        self.bot: Bot = bot
+        self.config = Config(bot)
+        self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="unban", description="Unban a banned member", guild_ids=guilds)
     @has_permissions(ban_members=True)
@@ -29,28 +33,50 @@ class Unban(commands.Cog):
 
         banned_users_list = await guild.bans()
 
-        embed = Embed(title="Error", description="**This user is not banned** :white_check_mark:", color=colors['sanction'], timestamp=datetime.datetime.utcnow())
+        embed = Embed(title="Error", description="**This user is not banned** :white_check_mark:", colour=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())
 
         log = {
             "action": "unban", 
             "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+            "user": {},
             "reason": reason,
-            "guild": ctx.guild.id
+            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
 
         for banned_users in banned_users_list:
+            user: User = await self.bot.fetch_user(banned_users.user.id)
             if user == str(banned_users.user.id):
-                user: User = await self.bot.fetch_user(banned_users.user.id)
                 await guild.unban(user, reason)
-                embed.description = f"**{user.name} has been unbanned**"
-                log['user']['id'] = user.id
-            elif str(user) == f"{banned_users.user.name}#{banned_users.user.discriminator}":
-                user: User = await self.bot.fetch_user(banned_users.user.id)
-                await guild.unban(user, reason)
+
+                embed.title = "Unban"
                 embed.description = f"**{user.name}** has been **unbanned**"
+
+                log['user']['id'] = user.id
+
+            elif str(user) == f"{banned_users.user.name}#{banned_users.user.discriminator}":
+                await guild.unban(user=user, reason=reason)
+
+                embed.title = "Unban"
+                embed.description = f"**{user.name}** has been **unbanned**"
+
                 log['user']['name'] = f"{banned_users.user.name}#{banned_users.user.discriminator}"        
 
         await ctx.respond(embed=embed, ephemeral=True)
+
+        channel_logging = self.bot.get_channel(
+            self.config.get_config(ctx.guild).get("channel_logging")
+            )
+
+        if channel_logging is not None:
+            embed_logging = self.embed_logging.get_embed(
+                data={
+                    "action": "unban",
+                    "author": ctx.user.id,
+                    "user": user.id,
+                    "reason": reason
+                }
+            )
+            await channel_logging.send(embed=embed_logging)
 
         logger.info(log)
 

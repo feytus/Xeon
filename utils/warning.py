@@ -7,15 +7,6 @@ class Warning:
     def __init__(self, bot: Bot):
         self.bot: Bot = bot
 
-    def join_server(self, guild: Guild):
-        if 'data' not in os.listdir():
-            os.mkdir('data')
-        if str(guild.id) not in os.listdir('data/'):
-            os.mkdir(f'data/{guild.id}')
-            with open(f'data/{guild.id}/warnings.json', 'a') as file:
-                file.write('{}')
-                file.close()
-
     def new_member(self, user: Member, guild: Guild):
         with open(f'data/{guild.id}/warnings.json', 'r') as file:
             data = json.load(file)

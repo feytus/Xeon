@@ -5,7 +5,8 @@ from discord.ext import commands
 from discord.ext.commands import bot_has_permissions
 from discord import Embed, Interaction, SelectOption, slash_command
 
-from utils.utils import all_commands, get_color, colors
+from utils.utils import all_commands
+from utils.color import Color
 from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
@@ -27,7 +28,7 @@ class Dropdown(discord.ui.Select):
         embed = Embed(
             title="Help", 
             description=f"**Get some help about __{self.values[0].casefold()}__**", 
-            color=colors['lite'],
+            color=Color.get_color("lite"),
             timestamp=datetime.datetime.utcnow())
         if self.values[0] != "All commands":
             embed.add_field(name="Description", value=all_commands[self.values[0]]['description'])
@@ -58,13 +59,13 @@ class Help_command(commands.Cog):
     async def help(self, ctx: Interaction):
         view = DropdownView()
 
-        embed = Embed(title="Help", description=f"Get some help about commands", color=colors['lite'], timestamp=datetime.datetime.utcnow())
+        embed = Embed(title="Help", description=f"Get some help about commands", color=Color.get_color("lite"), timestamp=datetime.datetime.utcnow())
         await ctx.response.send_message(embed=embed, view=view, ephemeral=True)
 
         log = {
-            "action": "help", "author": {
-                "id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
-            "guild": ctx.guild.id}
+            "action": "help", 
+            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}}
             
         logger.info(log)
 

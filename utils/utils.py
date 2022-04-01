@@ -18,14 +18,7 @@ all_commands = {
             }
 
 command = [SelectOption(label=command[0], description=command[1]['description']) for command in all_commands.items()]
-
-def get_color(colors: list):
-    return colors[randint(0, len(colors)-1)]
-
-colors = {
-            "lite": get_color([0x42ff75, 0x42ff75, 0xa9fa52]),
-            "sanction": get_color([0xf54531, 0xf57231, 0xf53145])
-        }
+ 
 
 def time_to_second(time, duration):
     duration = int(duration)

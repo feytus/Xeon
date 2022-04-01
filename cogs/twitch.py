@@ -10,7 +10,7 @@ from discord import Bot
 from twitch_info import get_user_id, get_stream, get_access_token
 
 from os import getenv
-from utils.utils import colors
+from utils.color import Color
 
 from utils.logs import logger
 
@@ -41,7 +41,7 @@ class Twitch_info(commands.Cog):
         embed = Embed(
             title="Twitch informations", 
             description=f"**Get some informations about {twitch_channel}**", 
-            color=colors['lite'],
+            color=Color.get_color("lite"),
             timestamp=datetime.datetime.utcnow())
 
         embed.add_field(name="Display name", value=twitch_channel, inline=True)
@@ -68,7 +68,7 @@ class Twitch_info(commands.Cog):
             "action": "twitch_info", 
             "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
             "twitch_channel": twitch_channel,
-            "guild": ctx.guild.id
+            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
 
         logger.info(log)
