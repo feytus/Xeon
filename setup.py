@@ -2,7 +2,8 @@ from genericpath import isfile
 import os
 
 # Installation of the package(s)
-packages = ['requests']
+packages = [module for module in open('requirements.txt').read().split('\n') if module]
+
 [os.system(f'pip install {package}') for package in packages]
 os.system('cls')
 
