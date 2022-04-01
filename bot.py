@@ -1,4 +1,3 @@
-from contextvars import Context
 import time
 import os
 
@@ -17,12 +16,12 @@ guilds=[809410416685219853, 803981117069852672]
 load_dotenv()
 
 @bot.command()
-async def load(ctx: Context, extension):
+async def load(ctx, extension):
     if ctx.author.id == 330707764911276035:
         bot.load_extension(f"cogs.{extension}")
 
 @bot.command()
-async def unload(ctx: Context, extension):
+async def unload(ctx, extension):
     if ctx.author.id == 330707764911276035:
         bot.unload_extension(f"cogs.{extension}")
 

@@ -1,7 +1,6 @@
 from genericpath import isfile
 import os
 
-# Installation of the package(s)
 packages = [module for module in open('requirements.txt').read().split('\n') if module]
 
 [os.system(f'pip install {package}') for package in packages]
@@ -14,3 +13,6 @@ if not isfile('.env'):
     with open('.env', 'a') as file:
         file.write(f'token="{token}"\nclient_id="{client_id}"\client_secret="{client_secret}"')
         file.close()
+else:
+    print("The bot is already configured | delete .env file if you want to configure it again")
+
