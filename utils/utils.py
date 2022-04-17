@@ -16,6 +16,7 @@ all_commands = {
             "remove_warning": {"description": "Remove a warning from a member of the discord", "utilisation": "/remove_warning [user] [warning_number]"},
             "report": {"description": "Report a member of the discord", "utilisation": "/report [user] [reason] [*proof"},
             "config_server": {"description": "Configure the bot for the discord", "utilisation": "/config [channel]"},
+            "get_config": {"description": "Get the configuration of the bot for the discord", "utilisation": "/get_config"},
             }
 
 command = [SelectOption(label=command[0], description=command[1]['description']) for command in all_commands.items()]
