@@ -1,4 +1,5 @@
 import datetime
+import discord
 
 from discord.ext import commands
 from discord import Embed, Member, Guild
@@ -34,7 +35,6 @@ class Events(commands.Cog):
         for guild in self.bot.guilds:
             if not self.config.is_config(guild):
                 self.config.config_server(guild)
-
                 logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
 
         log = {"action": "on_ready"}
@@ -57,10 +57,21 @@ class Events(commands.Cog):
         logger.warning(log)
 
     @commands.Cog.listener()
+    async def on_error(self, ctx: ApplicationContext, error):
+        if error is discord.errors.HTTPException:
+            ctx.respond(embed=Embed(
+                title="Error",
+                description=f"**Whoops ! try again later**", 
+                color=Color.get_color("sanction"),
+                timestamp=datetime.datetime.utcnow(),
+                ),
+                ephemeral=True
+            )
+
+    @commands.Cog.listener()
     async def on_member_join(self, user: Member):
         user = user.guild.get_member(user.id)
 
-        
         self.warning.new_member(user, user.guild)
 
         if user.guild.system_channel is not None:

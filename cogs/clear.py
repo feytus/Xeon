@@ -37,10 +37,10 @@ class Clear(commands.Cog):
                 color=0x40e66c,
                 timestamp=datetime.datetime.utcnow()), 
             ephemeral=True)
-        
-        channel_logging = self.bot.get_channel(
-            self.config.get_config(ctx.guild).get("channel_logging")
-            )
+
+        channel_logging = await self.bot.fetch_channel(
+            self.config.get_config(ctx.guild).get("logging_channel")
+        )
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(

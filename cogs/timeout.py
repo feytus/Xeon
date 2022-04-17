@@ -28,15 +28,9 @@ class Timeout(commands.Cog):
         self, 
         ctx: ApplicationContext, 
         user: Option(Member, description="The user to time out"), 
-        duration: Option(
-            int,
-            description="Duration"
-        ), 
-        time: Option(
-            str,
-            description="Time",
-            choices=["second", "minute", "hour", "day", "week", "month"]),
-            reason: Option(str, description="The reason for timing him out")):
+        duration: Option(int, description="Duration"), 
+        time: Option(str, description="time", choices=["second", "minute", "hour", "day", "week", "month"]),
+        reason: Option(str, description="The reason for timing him out")):
 
         await ctx.defer(ephemeral=True)
 
@@ -55,9 +49,9 @@ class Timeout(commands.Cog):
         
         await user.send(embed=embed_user)
 
-        channel_logging = self.bot.get_channel(
-            self.config.get_config(ctx.guild).get("channel_logging")
-            )
+        channel_logging = await self.bot.fetch_channel(
+            self.config.get_config(ctx.guild).get("logging_channel")
+        )
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(

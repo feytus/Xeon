@@ -49,9 +49,9 @@ class Tempban(commands.Cog):
         time_duration: timedelta = time_to_second(time, duration)
         await ctx.guild.ban(user, reason=reason)
 
-        channel_logging = self.bot.get_channel(
-            self.config.get_config(ctx.guild).get("channel_logging")
-            )
+        channel_logging = await self.bot.fetch_channel(
+            self.config.get_config(ctx.guild).get("logging_channel")
+        )
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(
@@ -79,7 +79,10 @@ class Tempban(commands.Cog):
         log = {
             "action": "tempban", 
             "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator}, 
-            "user": {"id": user.id, "name": user.display_name+"#"+ctx.user.discriminator}, "duration": duration, "time": time, "reason": reason,
+            "user": {"id": user.id, "name": user.display_name+"#"+ctx.user.discriminator}, 
+            "duration": duration, 
+            "time": time, 
+            "reason": reason,
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
 

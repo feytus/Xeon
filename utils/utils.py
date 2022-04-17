@@ -1,6 +1,5 @@
-from discord.commands import SlashCommand
-from random import randint
 from datetime import timedelta
+
 from discord import SelectOption
 
 all_commands = {
@@ -15,6 +14,8 @@ all_commands = {
             "warn": {"description": "Warn a member of the discord", "utilisation": "/warn [user] [reason]"},
             "warnings": {"description": "Get a list of warnings from a member of the discord", "utilisation": "/warnings [user]"},
             "remove_warning": {"description": "Remove a warning from a member of the discord", "utilisation": "/remove_warning [user] [warning_number]"},
+            "report": {"description": "Report a member of the discord", "utilisation": "/report [user] [reason] [*proof"},
+            "config_server": {"description": "Configure the bot for the discord", "utilisation": "/config [channel]"},
             }
 
 command = [SelectOption(label=command[0], description=command[1]['description']) for command in all_commands.items()]
