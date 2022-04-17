@@ -41,6 +41,7 @@ class Warn(commands.Cog):
         embed_user = Embed(description=f"**You received a warning on the server {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
+        embed_user.set_thumbnail(url=ctx.guild.icon_url)
         await user.send(embed=embed_user)
 
         embed=Embed(

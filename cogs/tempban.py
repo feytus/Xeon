@@ -37,14 +37,11 @@ class Tempban(commands.Cog):
 
         embed_user = Embed(description=f"**You have been temporarily banned from {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())
         
-        user: Member = user
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
         embed_user.add_field(name="Duration", value=f"{duration} {time}(s)", inline=True)
-        try:
-            await user.send(embed=embed_user)
-        except:
-            pass
+        embed_user.set_thumbnail(url=ctx.guild.icon_url)
+        await user.send(embed=embed_user)
 
         time_duration: timedelta = time_to_second(time, duration)
         await ctx.guild.ban(user, reason=reason)

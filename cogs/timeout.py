@@ -42,6 +42,7 @@ class Timeout(commands.Cog):
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
         embed_user.add_field(name="Duration", value=f"{duration} {time}(s)", inline=True)
+        embed_user.set_thumbnail(url=ctx.guild.icon_url)
 
         time_duration = time_to_second(time, duration)
 
