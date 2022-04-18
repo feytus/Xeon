@@ -30,7 +30,6 @@ class Report(commands.Cog):
         proof: Option(str, description="The proof of the report (must be an url)", required=False)):
         await ctx.defer(ephemeral=True)
 
-        print(proof)
         await ctx.respond(
             embed=Embed(
                 description=f"**{user}** has been **reported** :white_check_mark:", 

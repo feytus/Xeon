@@ -2,7 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Option
+from discord import Guild, Option
 from discord import ApplicationContext
 from discord import Embed
 from discord import Member
@@ -31,7 +31,8 @@ class Ban(commands.Cog):
         embed_user = Embed(description=f"**You have been banned from {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
-        embed_user.set_thumbnail(url=ctx.guild.icon_url)
+        embed_user.set_thumbnail(url=ctx.author.display_avatar)
+        embed_user.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon)
         await user.send(embed=embed_user)
 
         await ctx.guild.ban(user, reason=reason)

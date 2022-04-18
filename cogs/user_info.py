@@ -21,9 +21,6 @@ class User_info(commands.Cog):
     async def user_info(self, ctx: ApplicationContext, user: Option(Member, description="The user to get informations from", required=False)):
         await ctx.defer(ephemeral=True)
 
-        if user is None:
-            user: Member = ctx.user
-
         embed = Embed(
             title="User informations",
             description=f"**Get some informations** about {user.mention}", 

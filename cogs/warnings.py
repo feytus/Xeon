@@ -41,7 +41,8 @@ class Warn(commands.Cog):
         embed_user = Embed(description=f"**You received a warning on the server {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
-        embed_user.set_thumbnail(url=ctx.guild.icon_url)
+        embed_user.set_thumbnail(url=ctx.author.display_avatar)
+        embed_user.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon)
         await user.send(embed=embed_user)
 
         embed=Embed(
@@ -144,7 +145,7 @@ class Warn(commands.Cog):
                 timestamp=datetime.datetime.utcnow())
         else:
             embed=Embed(
-                description=f"You have **removed all warnings from {user}** :white_check_mark:", 
+                description=f"You have **removed all the warnings from {user}** :white_check_mark:", 
                 color=0x40e66c,
                 timestamp=datetime.datetime.utcnow())
 
