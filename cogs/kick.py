@@ -2,11 +2,8 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Embed
-from discord import ApplicationContext
 from discord.ext.commands import bot_has_permissions, has_permissions
-from discord import Option
-from discord import Member, Bot, User
+from discord import Member, Bot, Option, Embed, ApplicationContext
 
 from utils.embed_logging import EmbedLogging
 from utils.config import Config

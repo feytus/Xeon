@@ -4,8 +4,7 @@ import logging
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Bot, Embed
-from discord import ApplicationContext, Message, Option
+from discord import ApplicationContext, Message, Option, Bot, Embed
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.color import Color

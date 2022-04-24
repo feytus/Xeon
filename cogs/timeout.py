@@ -3,8 +3,7 @@ import datetime
 from discord.ext import commands
 from discord.ext.commands import bot_has_permissions, has_permissions
 from discord.commands import slash_command
-from discord import Bot
-from discord import Option, Embed, ApplicationContext,  Member
+from discord import Option, Embed, ApplicationContext, Member, Bot
 
 from utils.logs import logger
 from utils.color import Color

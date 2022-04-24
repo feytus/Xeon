@@ -1,9 +1,6 @@
 import datetime
 
-from discord import Bot, Member, User
-from discord import TextChannel
-from discord import Embed
-from discord.embeds import EmbedProxy
+from discord import Bot, User, TextChannel, Embed
 
 from utils.color import Color
 

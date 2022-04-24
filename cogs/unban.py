@@ -2,8 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Option, User, Guild, Embed
-from discord import ApplicationContext, Bot
+from discord import Option, User, Guild, Embed, ApplicationContext, Bot
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.config import Config

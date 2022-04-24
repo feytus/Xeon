@@ -3,6 +3,7 @@ import os
 
 from discord import Intents
 from discord.ext import commands
+
 from dotenv import load_dotenv
 
 start = time.perf_counter()

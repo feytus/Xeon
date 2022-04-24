@@ -1,4 +1,3 @@
-import os
 import json
 
 from discord import Bot, Guild, Member

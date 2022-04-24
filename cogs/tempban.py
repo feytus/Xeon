@@ -4,10 +4,7 @@ from datetime import timedelta
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Bot, Embed
-from discord import ApplicationContext
-from discord import Option
-from discord import Member
+from discord import Bot, Embed, ApplicationContext, Option, Member
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from asyncio import sleep

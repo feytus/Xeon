@@ -2,10 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Embed
-from discord import ApplicationContext
-from discord import Option
-from discord import Bot
+from discord import Embed, ApplicationContext, Option, Bot
 
 from twitch_info import get_user_id, get_stream, get_access_token
 
