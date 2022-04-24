@@ -31,6 +31,7 @@ class EmbedLogging:
             "channel": data.get("channel"),
             "element": data.get("element"),
             "value": data.get("value"),
+            "message": data.get("message"),
         }
         
         author: User = self.bot.get_user(embed_data.get("author"))

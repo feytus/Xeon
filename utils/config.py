@@ -64,11 +64,16 @@ class Config:
                 
         return True
     
-    def get_config(self, guild: Guild):
+    def get_config(self, guild: Guild, element: str=None):
         with open(f'data/{guild.id}/config.json', 'r') as file:
             config: dict = json.loads(file.read())
             file.close()
 
+        if element is not None:
+            return config.get(element)
+            
         return config
+        
+            
 
         

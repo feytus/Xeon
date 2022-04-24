@@ -90,28 +90,6 @@ class Events(commands.Cog):
             }
 
         logger.info(log)
-    
-    @commands.Cog.listener()
-    async def on_member_update(self, before: Member, after: Member):
-        info_before = {
-            "nickname": before,
-            "roles": before.roles,
-            "pending": before.pending,
-            "communication_disabled_until": before.communication_disabled_until,
-            "timed_out": before.timed_out
-        }
-
-        info_after = {
-            "nickname": after,
-            "roles": after.roles,
-            "pending": after.pending,
-            "communication_disabled_until": after.communication_disabled_until,
-            "timed_out": after.timed_out
-        }
-
-        for key in info_after.keys():
-            if info_after[key] != info_before[key]:
-                print(key, info_before[key], "-", info_after[key])
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: Guild):
@@ -125,7 +103,16 @@ class Events(commands.Cog):
             "is configured": self.config.is_config(guild)
         }
 
-        logger.info(log)   
+        logger.info(log)  
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild: Guild):
+        log = {
+            "action": "on_guild_remove",
+            "guild": {"id": guild.id, "name": guild.name}
+        }
+
+        logger.info(log) 
 
 def setup(bot):
     bot.add_cog(Events(bot))
