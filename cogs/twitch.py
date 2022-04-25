@@ -63,7 +63,7 @@ class Twitch_info(commands.Cog):
 
         log = {
             "action": "twitch_info", 
-            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+            "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
             "twitch_channel": twitch_channel,
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }

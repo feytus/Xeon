@@ -42,7 +42,7 @@ class Ban_list(commands.Cog):
 
         log = {
             "action": "ban_list", 
-            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+            "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
 

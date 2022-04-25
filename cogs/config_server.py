@@ -71,7 +71,7 @@ class Server_Config(commands.Cog):
         await message.edit(embed=embed)
         await response.delete()
 
-        channel_logging = await self.bot.fetch_channel(
+        channel_logging = self.bot.get_channel(
             self.config.get_config(ctx.guild).get("logging_channel")
         )
 
@@ -88,7 +88,7 @@ class Server_Config(commands.Cog):
 
         log = {
             "action": "config_server", 
-            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+            "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
             "element": element,
             "value": value,
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
@@ -122,7 +122,7 @@ class Server_Config(commands.Cog):
 
         log = {
             "action": "get_config", 
-            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+            "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
 

@@ -2,3 +2,5 @@ twitch-info
 py-cord==2.0.0b5
 python-dotenv
 colorama
+captcha
+pyimgur

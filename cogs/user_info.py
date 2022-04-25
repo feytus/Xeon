@@ -39,8 +39,8 @@ class User_info(commands.Cog):
         
         log = {
             "action": "user_info", 
-            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
-            "user": {"id": user.id, "name": user.display_name+"#"+user.discriminator},
+            "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
+            "user": {"id": user.id, "name": user.name+"#"+user.discriminator},
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
 

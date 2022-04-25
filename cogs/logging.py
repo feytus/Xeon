@@ -15,7 +15,8 @@ class Logging(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, before: Member, after: Member):
-        logging_channel = await self.bot.fetch_channel(self.config.get_config(after.guild, "logging_channel"))
+        print(after.guild)
+        logging_channel = self.bot.get_channel(self.config.get_config(after.guild, "logging_channel"))
 
         embed_logging = Embed(title="Logging", description=f"**{after.mention} has updated his profile**", color=Color.get_color("lite"))
         embed_logging.set_thumbnail(url=after.display_avatar)
@@ -67,7 +68,7 @@ class Logging(commands.Cog):
         if logging_channel is not None:
             await logging_channel.send(embed=embed_logging)
 
-        log = {"action": "on_guild_channel_delete", "channel": channel.id}
+        log = {"action": "on_guild_channel_delete", "channel": channel.id, "guild": channel.guild.id}
         logger.info(log)
 
     @commands.Cog.listener()
@@ -81,7 +82,7 @@ class Logging(commands.Cog):
         if logging_channel is not None:
             await logging_channel.send(embed=embed_logging)
 
-        log = {"action": "on_guild_channel_create", "channel": channel.id}
+        log = {"action": "on_guild_channel_create", "channel": channel.id, "guild": channel.guild.id}
         logger.info(log)
     
     @commands.Cog.listener()
@@ -123,7 +124,7 @@ class Logging(commands.Cog):
         if logging_channel is not None:
             await logging_channel.send(embed=embed_logging)
         
-        log = {"action": "on_guild_channel_update", "before": before, "after": after}
+        log = {"action": "on_guild_channel_update", "before": before, "after": after, "guild": after.guild.id}
         logger.info(log)
 
     @commands.Cog.listener()
@@ -145,7 +146,7 @@ class Logging(commands.Cog):
         if logging_channel is not None:
             await logging_channel.send(embed=embed_logging)
 
-        log = {"action": "on_message_edit", "before": before.content, "after": after.content}
+        log = {"action": "on_message_edit", "before": before.content, "after": after.content, "channel": after.channel.id, "guild": after.guild.id}
         logger.info(log)
 
 

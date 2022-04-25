@@ -36,7 +36,7 @@ class Unban(commands.Cog):
 
         log = {
             "action": "unban", 
-            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
+            "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
             "user": {},
             "reason": reason,
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
@@ -62,7 +62,7 @@ class Unban(commands.Cog):
 
         await ctx.respond(embed=embed, ephemeral=True)
 
-        channel_logging = await self.bot.fetch_channel(
+        channel_logging = self.bot.get_channel(
             self.config.get_config(ctx.guild).get("logging_channel")
         )
 

@@ -28,17 +28,23 @@ class Config:
         if not os.path.exists(f'data/{guild.id}'):
             os.mkdir(f'data/{guild.id}')
 
-        with open(f'data/{guild.id}/warnings.json', 'a') as file:
-            file.write('{}')
-            file.close()
+        if not os.path.exists(f'data/{guild.id}/captcha'):
+            os.mkdir(f'data/{guild.id}/captcha')
 
-        with open(f'data/{guild.id}/config.json', 'a') as file:
-            file.write('{}')
-            file.close()
-
+        if not self.is_config(guild, "WARNINGS_FILE"):
+            with open(f'data/{guild.id}/warnings.json', 'w') as file:
+                file.write("{}")
+                file.close()
+        
+        if not self.is_config(guild, "CONFIG_FILE"):
+            with open(f'data/{guild.id}/config.json', 'w') as file:
+                file.write("{}")
+                file.close()
+                
     def is_config(self, guild: Guild, element: str=None):
         elements = {
-            "FOLDER": f'data/{guild.id}',
+            "GUILD_FOLDER": f'data/{guild.id}',
+            "CAPTCHA_FOLDER": f'data/{guild.id}/CAPTCHA',
             "CONFIG_FILE": f'data/{guild.id}/config.json',
             "WARNINGS_FILE": f'data/{guild.id}/warnings.json'
         }

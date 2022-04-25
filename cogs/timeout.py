@@ -50,7 +50,7 @@ class Timeout(commands.Cog):
         
         await user.send(embed=embed_user)
 
-        channel_logging = await self.bot.fetch_channel(
+        channel_logging = self.bot.get_channel(
             self.config.get_config(ctx.guild).get("logging_channel")
         )
 
@@ -76,8 +76,8 @@ class Timeout(commands.Cog):
 
         log = {
             "action": "timeout", 
-            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
-            "user": {"id": user.id, "name": user.display_name+"#"+ctx.user.discriminator}, 
+            "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
+            "user": {"id": user.id, "name": user.name+"#"+ctx.user.discriminator}, 
             "duration": duration, 
             "time": time, 
             "reason": reason,

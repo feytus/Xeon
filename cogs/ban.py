@@ -40,7 +40,7 @@ class Ban(commands.Cog):
                 timestamp=datetime.datetime.utcnow()), 
             ephemeral=True)
 
-        channel_logging = await self.bot.fetch_channel(
+        channel_logging = self.bot.get_channel(
             self.config.get_config(ctx.guild).get("logging_channel")
         )
 
@@ -56,8 +56,8 @@ class Ban(commands.Cog):
             await channel_logging.send(embed=embed_logging)
 
         log = {"action": "ban", "author": {
-            "id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
-            "user": {"id": user.id, "name": user.display_name+"#"+user.discriminator},
+            "id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
+            "user": {"id": user.id, "name": user.name+"#"+user.discriminator},
             "reason": reason,
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}}
             

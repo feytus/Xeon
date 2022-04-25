@@ -55,8 +55,8 @@ class Report(commands.Cog):
 
         log = {
             "action": "report",
-            "author": {"id": ctx.user.id, "name": ctx.user.display_name+"#"+ctx.user.discriminator},
-            "user": {"id": user.id, "name": user.display_name+"#"+ctx.user.discriminator}, 
+            "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
+            "user": {"id": user.id, "name": user.name+"#"+ctx.user.discriminator}, 
             "reason": reason,
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
