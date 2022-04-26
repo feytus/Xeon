@@ -6,15 +6,7 @@
 ___
 [![Description](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&lines=A+simple+discord+bot+using+py-cord)](https://pypi.org/project/py-cord/)
 
-## How to use
-
-- **Clone the repository**
-
-```
-git clone https://github.com/feytus/Xeon.git
-```
-
-- **Run ``setup.py`` and follow the instructions**
+## [Link to the wiki](https://github.com/feytus/Xeon/wiki)
 
 
 ## License
