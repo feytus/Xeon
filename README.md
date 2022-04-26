@@ -14,7 +14,7 @@ ___
 git clone https://github.com/feytus/Xeon.git
 ```
 
-- **Run ``setup.py`` and follow instructions**
+- **Run ``setup.py`` and follow the instructions**
 
 
 ## License
