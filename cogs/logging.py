@@ -59,8 +59,7 @@ class Logging(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel: GuildChannel):
-        logging_channel = await self.bot.fetch_channel(self.config.
-        get_config(channel.guild, "logging_channel"))
+        logging_channel = self.bot.get_channel(self.config.get_config(channel.guild, "logging_channel"))
         embed_logging = Embed(title="Logging", description=f"**The channel {channel.mention} has been deleted**", color=Color.get_color("lite"))
         embed_logging.set_thumbnail(url=channel.guild.icon)
         embed_logging.timestamp = datetime.datetime.utcnow()
@@ -73,7 +72,7 @@ class Logging(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel: GuildChannel):
-        logging_channel = await self.bot.fetch_channel(self.config.get_config(channel.guild, "logging_channel"))
+        logging_channel = self.bot.get_channel(self.config.get_config(channel.guild, "logging_channel"))
 
         embed_logging = Embed(title="Logging", description=f"**The channel {channel.mention} has been created**", color=Color.get_color("lite"))
         embed_logging.set_thumbnail(url=channel.guild.icon)
@@ -134,7 +133,7 @@ class Logging(commands.Cog):
         if before.content == after.content:
             return False
 
-        logging_channel = await self.bot.fetch_channel(self.config.get_config(channel.guild, "logging_channel"))
+        logging_channel = self.bot.get_channel(self.config.get_config(channel.guild, "logging_channel"))
 
         embed_logging = Embed(title="Logging", description=f"**{before.author.mention} edited a message in {channel.mention}**", color=Color.get_color("lite"))
         embed_logging.add_field(name="Content", value=f"**{before.content} :arrow_right: {after.content}**", inline=False)

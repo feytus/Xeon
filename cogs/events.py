@@ -41,7 +41,6 @@ class Events(commands.Cog):
         logger.info(msg="latency : " + str(round(self.bot.latency * 1000)) + " ms")
 
         for guild in self.bot.guilds:
-            print(guild, self.config.is_config(guild))
             if not self.config.is_config(guild):
                 self.config.config_server(guild)
                 logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
@@ -50,7 +49,7 @@ class Events(commands.Cog):
 
         logger.info(log)
 
-    #@commands.Cog.listener()
+    @commands.Cog.listener()
     async def on_application_command_error(self, ctx: ApplicationContext, error):
         await ctx.respond(
             embed=Embed(
@@ -65,7 +64,7 @@ class Events(commands.Cog):
         log = {"command": ctx.command, "author": ctx.author.id, "error": error}
         logger.warning(log)
 
-    #@commands.Cog.listener()
+    @commands.Cog.listener()
     async def on_error(self, ctx: ApplicationContext, error):
         if error is discord.errors.HTTPException:
             ctx.respond(embed=Embed(
@@ -81,11 +80,11 @@ class Events(commands.Cog):
         logger.warning(log)
 
     async def captcha_check(self, user: Member):
+        guild = user.guild
+
         if len(os.listdir(f"data/{guild.id}/captcha/")) >= 10:
             for file in os.listdir(f"data/{guild.id}/captcha/"):
                 os.remove(f"data/{guild.id}/captcha/{file}")
-
-        guild = user.guild
 
         overwrites = {
             guild.default_role: PermissionOverwrite(read_messages=False),
@@ -104,23 +103,23 @@ class Events(commands.Cog):
         image.write(result_str, f"data/{guild.id}/captcha/{file_name}")
 
         uploaded_image = self.imgur.upload_image(path=f"data/{guild.id}/captcha/{file_name}", title=file_name)
-        
 
-        embed = Embed(title="Captcha", description=f"{user.mention} Please send **{result_str}**", color=discord.Color.random())
+        embed = Embed(title="Captcha", description=f"{user.mention} Please send **the code**", color=discord.Color.random())
         embed.set_image(url=uploaded_image.link)
         message_captcha = await channel.send(embed=embed)
 
         try:
             response: Message = await self.bot.wait_for("message", check=lambda response: response.author == user, timeout=30)
         except asyncio.TimeoutError:
-            await user.kick()
+            await user.kick(reason="Captcha timeout")
         
         if response.content == result_str:
             await user.add_roles(user.guild.get_role(871205238546255922))
             await message_captcha.delete()
             await response.delete()
+
         else:
-            await user.kick()
+            await user.kick(reason="Captcha failed")
             await message_captcha.delete()
             await response.delete()
 
