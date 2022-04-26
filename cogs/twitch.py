@@ -21,17 +21,17 @@ class TwitchInfo(commands.Cog):
     @slash_command(name="twitch_info", description="Get some informations about a twitch channel", guild_ids=guilds)
     async def twitch_info(self, ctx: ApplicationContext, twitch_channel: Option(str, description="The twitch channel to get informations from")):
         await ctx.defer(ephemeral=True)
-        acces_token = get_access_token(client_id=getenv('client_id'), client_secret=getenv('client_secret'))
+        acces_token = get_access_token(client_id=getenv('CLIENT_ID'), client_secret=getenv('CLIENT_SECRET'))
 
         user_id = get_user_id(
             user_name=twitch_channel,
-            client_id=getenv('client_id'),
+            client_id=getenv('CLIENT_ID'),
             acces_token=acces_token
             )
 
         info = get_stream(
             user_id=user_id,
-            client_id=getenv('client_id'),
+            client_id=getenv('CLIENT_ID'),
             acces_token=acces_token
         )
 
@@ -41,17 +41,18 @@ class TwitchInfo(commands.Cog):
             color=Color.get_color("lite"),
             timestamp=datetime.datetime.utcnow())
 
-        embed.add_field(name="Display name", value=twitch_channel, inline=True)
+        embed.add_field(name="Display name", value=twitch_channel.capitalize(), inline=True)
         
         if info == "This user is not streaming":
             info = {'type': "Not streaming"}
 
+
         if info['type'] == "live":
             embed.description = "**" + info['title'] + "**"
-            embed.add_field(name="Statue", value="Streaming", inline=True)
+            embed.add_field(name="Statue", value=":red_circle: Streaming", inline=True)
             embed.add_field(name="Game", value=info['game_name'])
             embed.add_field(name="Viewer count", value=info['viewer_count'])
-            embed.add_field(name="language", value=info['language'] + f" :flag_{info['language']}:")
+            embed.add_field(name="Language", value="**" + info['language'].upper() + f"** :flag_{info['language']}:")
 
             thumbail_url = info['thumbnail_url'].replace("{width}", "1080").replace("{height}", "600")
             embed.set_image(url=thumbail_url)
