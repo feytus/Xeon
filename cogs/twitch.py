@@ -14,7 +14,7 @@ from utils.logs import logger
 guilds=[809410416685219853, 803981117069852672]
 
 
-class Twitch_info(commands.Cog):
+class TwitchInfo(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
 
@@ -71,4 +71,4 @@ class Twitch_info(commands.Cog):
         logger.info(log)
 
 def setup(bot):
-    bot.add_cog(Twitch_info(bot))
+    bot.add_cog(TwitchInfo(bot))

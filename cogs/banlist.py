@@ -10,7 +10,7 @@ from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
 
-class Ban_list(commands.Cog):
+class BanList(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot  
 
@@ -49,4 +49,4 @@ class Ban_list(commands.Cog):
         logger.info(log)
 
 def setup(bot):
-    bot.add_cog(Ban_list(bot))
+    bot.add_cog(BanList(bot))

@@ -15,7 +15,7 @@ from utils.embed_logging import EmbedLogging
 
 guilds=[809410416685219853, 803981117069852672]
 
-class Server_Config(commands.Cog):
+class ServerConfig(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
         self.config = Config(bot)
@@ -169,4 +169,4 @@ class Server_Config(commands.Cog):
         await ctx.respond(embed=embed)
 
 def setup(bot):
-    bot.add_cog(Server_Config(bot))
+    bot.add_cog(ServerConfig(bot))

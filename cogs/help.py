@@ -50,7 +50,7 @@ class DropdownView(discord.ui.View):
 
         self.add_item(Dropdown())
 
-class Help_command(commands.Cog):
+class HelpCommand(commands.Cog):
     def __init__(self, bot):
         self.bot: commands.Bot = bot
 
@@ -71,4 +71,4 @@ class Help_command(commands.Cog):
         logger.info(log)
 
 def setup(bot):
-    bot.add_cog(Help_command(bot))
+    bot.add_cog(HelpCommand(bot))

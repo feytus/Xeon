@@ -10,7 +10,7 @@ from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
 
-class User_info(commands.Cog):
+class UserInfo(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
 
@@ -47,4 +47,4 @@ class User_info(commands.Cog):
         logger.info(log)
 
 def setup(bot):
-    bot.add_cog(User_info(bot))
+    bot.add_cog(UserInfo(bot))
