@@ -15,7 +15,6 @@ class Logging(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, before: Member, after: Member):
-        print(after.guild)
         logging_channel = self.bot.get_channel(self.config.get_config(after.guild, "logging_channel"))
 
         embed_logging = Embed(title="Logging", description=f"**{after.mention} has updated his profile**", color=Color.get_color("lite"))
@@ -86,7 +85,7 @@ class Logging(commands.Cog):
     
     @commands.Cog.listener()
     async def on_guild_channel_update(self, before: GuildChannel, after: GuildChannel):
-        logging_channel = await self.bot.fetch_channel(self.config.get_config(after.guild, "logging_channel"))
+        logging_channel = self.bot.get_channel(self.config.get_config(after.guild, "logging_channel"))
 
         embed_logging = Embed(title="Logging", description=f"**The channel {before.mention} has been edited**", color=Color.get_color("lite"))
         embed_logging.set_thumbnail(url=before.guild.icon)

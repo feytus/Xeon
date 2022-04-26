@@ -59,7 +59,7 @@ class Server_Config(commands.Cog):
 
             elif item == "default role":
                 default_role = ctx.guild.get_role(int(value))
-                print(default_role)
+
                 if default_role is None:
                     embed.description = "**The role doesn't exist**"
                     await message.edit(embed=embed)
@@ -81,7 +81,7 @@ class Server_Config(commands.Cog):
         elif item == "default role":
             element = "default_role"
 
-        self.config.config_element(ctx.guild, element=element, value=value)
+        self.config.config_element(ctx.guild, element=element, value=int(value))
 
         config = self.config.get_config(ctx.guild)
         logging_channel = config.get("logging_channel")

@@ -82,6 +82,12 @@ class Events(commands.Cog):
     async def captcha_check(self, user: Member):
         guild = user.guild
 
+        default_role = guild.get_role(self.config.get_config(guild, "default_role"))
+
+        if default_role is None:
+            return False
+
+
         if len(os.listdir(f"data/{guild.id}/captcha/")) >= 10:
             for file in os.listdir(f"data/{guild.id}/captcha/"):
                 os.remove(f"data/{guild.id}/captcha/{file}")
@@ -113,8 +119,9 @@ class Events(commands.Cog):
         except asyncio.TimeoutError:
             await user.kick(reason="Captcha timeout")
         
+
         if response.content == result_str:
-            await user.add_roles(user.guild.get_role(871205238546255922))
+            await user.add_roles(default_role)
             await message_captcha.delete()
             await response.delete()
 
