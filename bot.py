@@ -31,5 +31,5 @@ for filename in os.listdir("./cogs"):
         bot.load_extension(f"cogs.{filename[:-3]}")
 
 
-bot.run(os.getenv('token'))
+bot.run(os.getenv('TOKEN'))
 
