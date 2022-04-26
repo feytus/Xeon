@@ -55,7 +55,8 @@ class Clear(commands.Cog):
             "action": "clear", 
             "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
             "channel": {"id": ctx.channel.id, "name": ctx.channel.name},
-            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}}
+            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
+            }
 
         logger.info(log)
 

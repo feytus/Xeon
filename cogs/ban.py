@@ -59,7 +59,8 @@ class Ban(commands.Cog):
             "id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
             "user": {"id": user.id, "name": user.name+"#"+user.discriminator},
             "reason": reason,
-            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}}
+            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
+            }
             
         logger.info(log)
 

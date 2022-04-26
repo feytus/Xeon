@@ -65,7 +65,8 @@ class Help_command(commands.Cog):
         log = {
             "action": "help", 
             "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
-            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}}
+            "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
+            }
             
         logger.info(log)
 
