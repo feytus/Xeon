@@ -60,5 +60,6 @@ class Clear(commands.Cog):
 
         logger.info(log)
 
+
 def setup(bot):
     bot.add_cog(Clear(bot))

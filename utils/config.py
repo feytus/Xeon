@@ -4,8 +4,6 @@ import os
 from discord import Bot, Guild
 
 class Config:
-    def __init__(self, bot: Bot):
-        self.bot: Bot = bot
 
     def config_element(self, guild: Guild, element: str, value: str):
         if not self.is_config(guild):
