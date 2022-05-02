@@ -11,7 +11,7 @@ from utils.logs import logger
 class Logging(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config(bot)
+        self.config = Config()
 
     @commands.Cog.listener()
     async def on_member_update(self, before: Member, after: Member):

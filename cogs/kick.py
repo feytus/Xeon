@@ -15,7 +15,7 @@ guilds=[809410416685219853, 803981117069852672]
 class Kick(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config(bot)
+        self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
     @has_permissions(kick_members=True)

@@ -15,7 +15,7 @@ guilds=[809410416685219853, 803981117069852672]
 class Unban(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config(bot)
+        self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="unban", description="Unban a banned member", guild_ids=guilds)

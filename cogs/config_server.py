@@ -18,7 +18,7 @@ guilds=[809410416685219853, 803981117069852672]
 class ServerConfig(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config(bot)
+        self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="config_server", description="Configure the bot for the discord", guild_ids=guilds)
