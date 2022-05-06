@@ -7,7 +7,6 @@ logs/
 
 cogs/__pycache__
 cogs/blague.py
-cogs/lfg.py
 
 utils/__pycache__
 
