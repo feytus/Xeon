@@ -1,8 +1,9 @@
 import datetime
 
 from discord.ext import commands
+from discord.ext.commands import bot_has_permissions
 from discord.commands import slash_command
-from discord import Embed, ApplicationContext, Option, Bot
+from discord import Embed, ApplicationContext, Bot, option
 
 from twitch_info import get_user_id, get_stream, get_access_token
 
@@ -18,8 +19,10 @@ class TwitchInfo(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
 
+    @bot_has_permissions(send_messages=True, read_messages=True)
     @slash_command(name="twitch_info", description="Get some informations about a twitch channel", guild_ids=guilds)
-    async def twitch_info(self, ctx: ApplicationContext, twitch_channel: Option(str, description="The twitch channel to get informations from")):
+    @option(name="twitch_channel", type=str, description="The twitch channel to get informations from")
+    async def twitch_info(self, ctx: ApplicationContext, twitch_channel: str):
         await ctx.defer(ephemeral=True)
         acces_token = get_access_token(client_id=getenv('CLIENT_ID'), client_secret=getenv('CLIENT_SECRET'))
 

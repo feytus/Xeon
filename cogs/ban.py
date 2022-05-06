@@ -2,7 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Option, ApplicationContext, Embed, Member, Bot
+from discord import ApplicationContext, Embed, Member, Bot, option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.embed_logging import EmbedLogging
@@ -19,9 +19,11 @@ class Ban(commands.Cog):
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="ban", description="Ban a member of the discord", guild_ids=guilds)
+    @option(name="user", type=Member, description="The user to ban")
+    @option(name="reason", type=str, description="The reason for banning")
     @has_permissions(ban_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, ban_members=True)
-    async def ban(self, ctx: ApplicationContext, user: Option(Member, description="The user to ban"), reason: Option(str, "The reason for banning")):
+    async def ban(self, ctx: ApplicationContext, user: Member, reason: str):
         await ctx.defer(ephemeral=True)
 
         embed_user = Embed(description=f"**You have been banned from {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())

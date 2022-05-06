@@ -2,7 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import ApplicationContext, Bot, Option, Embed
+from discord import ApplicationContext, Bot, Option, Embed, option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.embed_logging import EmbedLogging
@@ -18,9 +18,10 @@ class Clear(commands.Cog):
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="clear", description="Clear the channel", guild_ids=guilds)
+    @option(name="amount", type=int, description="The amount of messages to delete", required=False)
     @has_permissions(manage_messages=True)
     @bot_has_permissions(send_messages=True, read_messages=True, manage_messages=True)
-    async def clear(self, ctx: ApplicationContext, amount: Option(int, description="Amount of message to delete", required=False)):
+    async def clear(self, ctx: ApplicationContext, amount: int):
         await ctx.defer(ephemeral=True)
 
         if amount == None:

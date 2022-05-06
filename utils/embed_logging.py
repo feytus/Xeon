@@ -24,7 +24,6 @@ class EmbedLogging:
             "amount": data.get("amount"),
             "warning": data.get("warning"),
             "reason": data.get("reason"),
-            "proof": data.get("proof"),
             "channel": data.get("channel"),
             "element": data.get("element"),
             "value": data.get("value"),
@@ -44,7 +43,7 @@ class EmbedLogging:
         for key in embed_data.keys():
             value = embed_data[key]
 
-            if (key == "duration" or key == "time") and value is not None:
+            if key in ("duration", "time") and value is not None:
                 duration = embed_data.get("duration")
                 time = embed_data.get("time")
                 embed.add_field(name="Duration", value=f"{duration} {time}(s)")

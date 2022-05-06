@@ -4,8 +4,7 @@ import logging
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import ApplicationContext, Message, Option, Bot, Embed
-from discord.abc import GuildChannel
+from discord import ApplicationContext, Message, Bot, Embed, option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.color import Color
@@ -22,9 +21,10 @@ class ServerConfig(commands.Cog):
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="config_server", description="Configure the bot for the discord", guild_ids=guilds)
+    @option(name="item", type=str, description="The item to configure", choices=["logging channel", "report channel", "default role"])
     @has_permissions(administrator=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
-    async def config_server(self, ctx: ApplicationContext, item: Option(str, description="The item to config", choices=["logging channel", "report channel", "default role"])):
+    async def config_server(self, ctx: ApplicationContext, item: str):
         await ctx.defer(ephemeral=True)
 
         embed = Embed(title="Configuration", color=Color.get_color("lite"), timestamp=datetime.datetime.utcnow())

@@ -3,7 +3,7 @@ import discord
 
 from discord.ext import commands
 from discord.ext.commands import bot_has_permissions
-from discord import Embed, Interaction, SelectOption, slash_command
+from discord import ApplicationContext, Embed, Interaction, SelectOption, slash_command
 
 from utils.utils import all_commands
 from utils.color import Color
@@ -56,7 +56,7 @@ class HelpCommand(commands.Cog):
 
     @bot_has_permissions(send_messages=True, read_messages=True)
     @slash_command(name="help", description="Get some help about commands", guild_ids=guilds)
-    async def help(self, ctx: Interaction):
+    async def help(self, ctx: ApplicationContext):
         view = DropdownView()
 
         embed = Embed(title="Help", description=f"Get some help about commands", color=Color.get_color("lite"), timestamp=datetime.datetime.utcnow())

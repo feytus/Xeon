@@ -2,7 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Option, User, Guild, Embed, ApplicationContext, Bot
+from discord import User, Guild, Embed, ApplicationContext, Bot, option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.config import Config
@@ -18,14 +18,12 @@ class Unban(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="unban", description="Unban a banned member", guild_ids=guilds)
     @has_permissions(ban_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, ban_members=True)
-    async def unban(
-        self, 
-        ctx: ApplicationContext, 
-        user: Option(str, description="The user to unban : exemple#1234 or the user ID", required=True), 
-        reason: Option(str, description="The reaon for unbanning this user", required=False)="No reason given"):
+    @slash_command(name="unban", description="Unban a banned member", guild_ids=guilds)
+    @option(name="user", type=str, description="The user to unban : exemple#1234 or the user ID")
+    @option(name="reason", type=str, description="The reason for unbanning")
+    async def unban(self, ctx: ApplicationContext, user: str, reason: str="No reason given"):
         await ctx.defer(ephemeral=True)
 
         guild: Guild = ctx.guild

@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Bot, Embed, ApplicationContext, Option, Member
+from discord import Bot, Embed, ApplicationContext, Member, option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from asyncio import sleep
@@ -23,13 +23,14 @@ class Tempban(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="tempban", description="Temporarily ban member of the discord", guild_ids=guilds)
     @has_permissions(moderate_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, moderate_members=True)
-    async def tempban(
-        self, ctx: ApplicationContext, user: Option(Member, description="The user to temporarily ban"), duration: int, time: Option(str,
-            choices=["second", "minute", "hour", "day", "week", "month"]),
-            reason: Option(str, description="The reason for banning temporarily")):
+    @slash_command(name="tempban", description="Temporarily ban member of the discord", guild_ids=guilds)
+    @option(name="user", type=Member, description="The user to tempban")
+    @option(name="duration", type=int)
+    @option(name="time", type=str, choices=["second", "minute", "hour", "day", "week", "month"])
+    @option(name="reason", type=str, description="The reason for tempban")
+    async def tempban(self, ctx: ApplicationContext, user: Member, duration: int, time: str, reason: str):
         await ctx.defer(ephemeral=True)
 
         embed_user = Embed(description=f"**You have been temporarily banned from {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())

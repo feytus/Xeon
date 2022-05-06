@@ -2,7 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Member, Option, Embed, ApplicationContext, Bot
+from discord import Attachment, Member, Option, Embed, ApplicationContext, Bot, option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.embed_logging import EmbedLogging
@@ -18,14 +18,12 @@ class Report(commands.Cog):
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="report", description="Report a member of the discord", guild_ids=guilds)
+    @option(name="user", type=Member, description="The user to report")
+    @option(name="reason", type=str, description="The reason for reporting")
+    @option(name="proof", type=Attachment, description="The proof of the report", required=False)
     @has_permissions(manage_messages=True)
     @bot_has_permissions(send_messages=True, read_messages=True, manage_messages=True)
-    async def report(
-        self, 
-        ctx: ApplicationContext, 
-        user: Option(Member, description="The user to report"), 
-        reason: Option(str, description="The reason for reporting"), 
-        proof: Option(str, description="The proof of the report (must be an url)", required=False)):
+    async def report(self, ctx: ApplicationContext, user: Member, reason: str, proof: Attachment):
         await ctx.defer(ephemeral=True)
 
         await ctx.respond(
@@ -41,18 +39,20 @@ class Report(commands.Cog):
             self.config.get_config(ctx.guild).get("channel_report")
             )
 
-        if channel_report is not None:
+        if channel_report is Attachment:
             embed_logging = self.embed_logging.get_embed(
                 data={
                     "action": "report",
                     "author": ctx.user.id,
                     "user": user.id,
                     "reason": reason,
-                    "proof": proof
                 }
             )
-            await channel_report.send(embed=embed_logging)
-
+            if proof is not None:
+                proof = await proof.to_file()
+                await channel_report.send(embed=embed_logging, file=proof)
+            else:
+                await channel_report.send(embed=embed_logging)
         log = {
             "action": "report",
             "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},

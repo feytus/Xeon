@@ -3,7 +3,7 @@ import datetime
 from discord.ext import commands
 from discord.commands import slash_command
 from discord.ext.commands import bot_has_permissions, has_permissions
-from discord import Member, Bot, Option, Embed, ApplicationContext
+from discord import Member, Bot, Embed, ApplicationContext, option
 
 from utils.embed_logging import EmbedLogging
 from utils.config import Config
@@ -18,10 +18,12 @@ class Kick(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
+    @slash_command(name="kick", description="Kick a member of the discord", guild_ids=guilds)
+    @option(name="user", type=Member, description="The user to kick")
+    @option(name="reason", type=str, description="The reason for kicking")
     @has_permissions(kick_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, kick_members=True)
-    @slash_command(name="kick", description="Kick a member of the discord", guild_ids=guilds)
-    async def kick(self, ctx: ApplicationContext, user: Option(Member, description="The user to kick"), reason: Option(str, description="The reason for kicking", required=True)):
+    async def kick(self, ctx: ApplicationContext, user: Member, reason: str):
         await ctx.defer(ephemeral=True)
 
         embed_user = Embed(description=f"**You have been kicked from {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())

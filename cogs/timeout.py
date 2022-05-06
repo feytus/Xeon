@@ -3,7 +3,7 @@ import datetime
 from discord.ext import commands
 from discord.ext.commands import bot_has_permissions, has_permissions
 from discord.commands import slash_command
-from discord import Option, Embed, ApplicationContext, Member, Bot
+from discord import Embed, ApplicationContext, Member, Bot, option
 
 from utils.logs import logger
 from utils.color import Color
@@ -23,14 +23,11 @@ class Timeout(commands.Cog):
     @has_permissions(moderate_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, moderate_members=True)
     @slash_command(name="timeout", description="Timeout a member of the discord", guild_ids=guilds)
-    async def timeout(
-        self, 
-        ctx: ApplicationContext, 
-        user: Option(Member, description="The user to time out"), 
-        duration: Option(int, description="Duration"), 
-        time: Option(str, description="time", choices=["second", "minute", "hour", "day", "week", "month"]),
-        reason: Option(str, description="The reason for timing him out")):
-
+    @option(name="user", type=Member, description="The user to time out")
+    @option(name="duration", type=int)
+    @option(name="time", type=str, choices=["second", "minute", "hour", "day", "week", "month"])
+    @option(name="reason", type=str, description="The reason for timing him out")
+    async def timeout(self, ctx: ApplicationContext, user: Member, duration: int, time: str, reason: str):
         await ctx.defer(ephemeral=True)
 
         embed_user = Embed(

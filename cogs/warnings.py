@@ -2,7 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Member, Option, Guild, Embed, ApplicationContext, Bot
+from discord import Member, Guild, Embed, ApplicationContext, Bot, option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.config import Config
@@ -21,14 +21,12 @@ class Warn(commands.Cog):
         self.embed_logging = EmbedLogging(bot)
         self.warning = Warning(bot)
 
-    @slash_command(name="warn", description="Warn a member of the discord", guild_ids=guilds)
     @has_permissions(manage_roles=True)
-    @bot_has_permissions(send_messages=True, read_messages=True)    
-    async def warn(
-        self, 
-        ctx: ApplicationContext, 
-        user: Option(Member, description="The user to warn", required=True),
-        reason: Option(str, description="The reason for warning this user", required=True)):
+    @bot_has_permissions(send_messages=True, read_messages=True)  
+    @slash_command(name="warn", description="Warn a member of the discord", guild_ids=guilds)  
+    @option(name="user", type=Member, description="The user to warn")
+    @option(name="reason", type=str, description="The reason for warning")
+    async def warn(self, ctx: ApplicationContext, user: Member, reason: str):
         await ctx.defer(ephemeral=True)
 
         guild: Guild = ctx.guild
@@ -75,13 +73,11 @@ class Warn(commands.Cog):
 
         logger.info(log)
 
-    @slash_command(name="warnings", description="Get a list of warnings from a member of the discord", guild_ids=guilds)
     @has_permissions(manage_roles=True)
-    @bot_has_permissions(send_messages=True, read_messages=True)    
-    async def warnings(
-        self, 
-        ctx: ApplicationContext, 
-        user: Option(Member, description="The user to get warning", required=True)):
+    @bot_has_permissions(send_messages=True, read_messages=True)
+    @slash_command(name="warnings", description="Get a list of warnings from a member of the discord", guild_ids=guilds)
+    @option(name="user", type=Member, description="The user to get the warnings")
+    async def warnings(self, ctx: ApplicationContext, user: Member):
         await ctx.defer(ephemeral=True)
 
         guild: Guild = ctx.guild
@@ -120,14 +116,12 @@ class Warn(commands.Cog):
 
         logger.info(log)
 
-    @slash_command(name="remove_warning", description="Remove a warning from a member of the discord", guild_ids=guilds)
     @has_permissions(manage_roles=True)
-    @bot_has_permissions(send_messages=True, read_messages=True)    
-    async def remove_warning(
-        self, 
-        ctx: ApplicationContext, 
-        user: Option(Member, description="The user to warn", required=True),
-        warning_number: Option(int, description="The number of the warning", required=False)):
+    @bot_has_permissions(send_messages=True, read_messages=True)  
+    @slash_command(name="remove_warning", description="Remove a warning from a member of the discord", guild_ids=guilds)
+    @option(name="user", type=Member, description="The user to remove the warning")
+    @option(name="warning_number", type=int, description="The warning's number to remove", required=False)
+    async def remove_warning(self, ctx: ApplicationContext, user: Member, warning_number: int):
         await ctx.defer(ephemeral=True)
 
         guild: Guild = ctx.guild
