@@ -118,6 +118,8 @@ class Events(commands.Cog):
             response: Message = await self.bot.wait_for("message", check=lambda response: response.author == user, timeout=30)
         except asyncio.TimeoutError:
             await user.kick(reason="Captcha timeout")
+            await channel.delete()
+            return False
         
 
         if response.content == result_str:
