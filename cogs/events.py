@@ -9,7 +9,7 @@ import os
 from captcha.image import ImageCaptcha
 
 from discord.ext import commands
-from discord import Bot, ApplicationContext, Embed, Member, Guild, PermissionOverwrite, Message
+from discord import ApplicationCommandInvokeError, Bot, ApplicationContext, Embed, Member, Guild, PermissionOverwrite, Message
 
 from utils.warning import Warning
 from utils.color import Color
@@ -51,15 +51,26 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_application_command_error(self, ctx: ApplicationContext, error):
-        await ctx.respond(
-            embed=Embed(
-                title="Error",
-                description=f"**{error}**", 
-                color=Color.get_color("sanction"),
-                timestamp=datetime.datetime.utcnow(),
+        if isinstance(error, ApplicationCommandInvokeError):
+            await ctx.respond(
+                embed=Embed(
+                    title="Error",
+                    description="Try later !",
+                    color=Color.get_color("sanction"),
+                    timestamp=datetime.datetime.utcnow()
                 ),
                 ephemeral=True
             )
+        else:
+            await ctx.respond(
+                embed=Embed(
+                    title="Error",
+                    description=f"**{error}**", 
+                    color=Color.get_color("sanction"),
+                    timestamp=datetime.datetime.utcnow(),
+                    ),
+                    ephemeral=True
+                )
 
         log = {"command": ctx.command, "author": ctx.author.id, "error": error}
         logger.warning(log)
