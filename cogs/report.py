@@ -21,7 +21,6 @@ class Report(commands.Cog):
     @option(name="user", type=Member, description="The user to report")
     @option(name="reason", type=str, description="The reason for reporting")
     @option(name="proof", type=Attachment, description="The proof of the report", required=False)
-    @has_permissions(manage_messages=True)
     @bot_has_permissions(send_messages=True, read_messages=True, manage_messages=True)
     async def report(self, ctx: ApplicationContext, user: Member, reason: str, proof: Attachment):
         await ctx.defer(ephemeral=True)

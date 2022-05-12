@@ -2,7 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import ApplicationContext, Bot, Embed, Guild
+from discord import ApplicationContext, Bot, Embed, Guild, default_permissions
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.color import Color
@@ -15,6 +15,7 @@ class BanList(commands.Cog):
         self.bot: Bot = bot  
 
     @slash_command(name="ban_list", description="Get a list of all banned members", guild_ids=guilds)
+    @default_permissions(ban_members=True)
     @has_permissions(ban_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, ban_members=True)
     async def ban_list(self, ctx: ApplicationContext):

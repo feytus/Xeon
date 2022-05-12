@@ -3,7 +3,7 @@ import datetime
 from discord.ext import commands
 from discord.ext.commands import bot_has_permissions, has_permissions
 from discord.commands import slash_command
-from discord import Embed, ApplicationContext, Member, Bot, option
+from discord import Embed, ApplicationContext, Member, Bot, option, default_permissions
 
 from utils.logs import logger
 from utils.color import Color
@@ -20,6 +20,7 @@ class Timeout(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
+    @default_permissions(moderate_members=True)
     @has_permissions(moderate_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, moderate_members=True)
     @slash_command(name="timeout", description="Timeout a member of the discord", guild_ids=guilds)

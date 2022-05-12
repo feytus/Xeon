@@ -15,7 +15,6 @@ class ServerInfo(commands.Cog):
         self.bot: Bot = bot
 
     @slash_command(name="server_info", description="Get some informations about the discord", guild_ids=guilds)
-    @has_permissions(manage_roles=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
     async def server_info(self, ctx: ApplicationContext):
         await ctx.defer(ephemeral=True)

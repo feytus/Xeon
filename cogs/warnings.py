@@ -2,7 +2,7 @@ import datetime
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Member, Guild, Embed, ApplicationContext, Bot, option
+from discord import Member, Guild, Embed, ApplicationContext, Bot, default_permissions, option
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.config import Config
@@ -21,6 +21,7 @@ class Warn(commands.Cog):
         self.embed_logging = EmbedLogging(bot)
         self.warning = Warning(bot)
 
+    @default_permissions(manage_roles=True)
     @has_permissions(manage_roles=True)
     @bot_has_permissions(send_messages=True, read_messages=True)  
     @slash_command(name="warn", description="Warn a member of the discord", guild_ids=guilds)  

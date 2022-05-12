@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from discord.ext import commands
 from discord.commands import slash_command
-from discord import Bot, Embed, ApplicationContext, Member, option
+from discord import Bot, Embed, ApplicationContext, Member, option, default_permissions
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from asyncio import sleep
@@ -23,8 +23,9 @@ class Tempban(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
-    @has_permissions(moderate_members=True)
-    @bot_has_permissions(send_messages=True, read_messages=True, moderate_members=True)
+    @default_permissions(ban_members=True)
+    @has_permissions(ban_members=True)
+    @bot_has_permissions(send_messages=True, read_messages=True, ban_members=True)
     @slash_command(name="tempban", description="Temporarily ban member of the discord", guild_ids=guilds)
     @option(name="user", type=Member, description="The user to tempban")
     @option(name="duration", type=int)

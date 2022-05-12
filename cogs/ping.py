@@ -1,6 +1,7 @@
 import datetime
+import discord
 
-from discord import Bot, ApplicationContext, Embed
+from discord import Bot, ApplicationContext, Embed, default_permissions
 from discord.ext import commands
 from discord.ext.commands import slash_command
 

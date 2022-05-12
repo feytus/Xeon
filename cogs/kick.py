@@ -3,7 +3,7 @@ import datetime
 from discord.ext import commands
 from discord.commands import slash_command
 from discord.ext.commands import bot_has_permissions, has_permissions
-from discord import Member, Bot, Embed, ApplicationContext, option
+from discord import Member, Bot, Embed, ApplicationContext, option, default_permissions
 
 from utils.embed_logging import EmbedLogging
 from utils.config import Config
@@ -21,6 +21,7 @@ class Kick(commands.Cog):
     @slash_command(name="kick", description="Kick a member of the discord", guild_ids=guilds)
     @option(name="user", type=Member, description="The user to kick")
     @option(name="reason", type=str, description="The reason for kicking")
+    @default_permissions(kick_members=True)
     @has_permissions(kick_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, kick_members=True)
     async def kick(self, ctx: ApplicationContext, user: Member, reason: str):
