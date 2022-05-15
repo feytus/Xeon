@@ -10,6 +10,7 @@ from discord.ext.commands import bot_has_permissions, has_permissions
 from utils.color import Color
 from utils.logs import logger
 from utils.config import Config
+from utils.database import Database
 from utils.embed_logging import EmbedLogging
 
 guilds=[809410416685219853, 803981117069852672]
@@ -82,9 +83,14 @@ class ServerConfig(commands.Cog):
         elif item == "default role":
             element = "default_role"
 
-        self.config.config_element(ctx.guild, element=element, value=int(value))
+        if not Database.check_config(ctx.guild.id):
+            self.config.config_element(ctx.guild, element=element, value=int(value))
+            config = self.config.get_config(ctx.guild.id)
+        else:
+            Database.update_config(ctx.guild.id, element=element, value=int(value))
+            config = Database.get_config(ctx.guild.id)
 
-        config = self.config.get_config(ctx.guild)
+
         logging_channel = config.get("logging_channel")
         report_channel = config.get("report_channel")
         default_role = config.get("default_role")
@@ -94,6 +100,7 @@ class ServerConfig(commands.Cog):
             description=f"**The {item} has been set to {item_value.mention}**", 
             color=Color.get_color("lite"), 
             timestamp=datetime.datetime.utcnow())
+
         embed.set_thumbnail(url=ctx.guild.icon)
 
         if logging_channel is not None:
@@ -106,17 +113,22 @@ class ServerConfig(commands.Cog):
         await message.edit(embed=embed)
         await response.delete()
 
-        channel_logging = self.bot.get_channel(
-            self.config.get_config(ctx.guild).get("logging_channel")
-        )
+        if not Database.check_config(ctx.guild.id):
+            channel_logging = self.bot.get_channel(
+                self.config.get_config(ctx.guild).get("logging_channel")
+            )
+        else:
+            channel_logging = self.bot.get_channel(
+                Database.get_config(ctx.guild.id).get("logging_channel")
+            )
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(
                 data={
-                    "action": "config_server",
+                    "action": "server_config",
                     "author": ctx.user.id,
                     "element": element,
-                    "value": guild_channel,
+                    "value": item_value.mention,
                 }
             )
             await channel_logging.send(embed=embed_logging)
@@ -144,9 +156,11 @@ class ServerConfig(commands.Cog):
             timestamp=datetime.datetime.utcnow())
         embed.set_thumbnail(url=ctx.guild.icon)
 
-        self.config.get_config(ctx.guild)
+        if not Database.check_config(ctx.guild.id):
+            config = self.config.get_config(ctx.guild)
+        else:
+            config = Database.get_config(ctx.guild.id)
 
-        config = self.config.get_config(ctx.guild)
         logging_channel = config.get("logging_channel")
         report_channel = config.get("report_channel")
         default_role = config.get("default_role")

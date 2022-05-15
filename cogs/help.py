@@ -58,10 +58,12 @@ class HelpCommand(commands.Cog):
     @default_permissions(send_messages=True, read_messages=True)
     @slash_command(name="help", description="Get some help about commands", guild_ids=guilds)
     async def help(self, ctx: ApplicationContext):
+        await ctx.defer(ephemeral=True)
+
         view = DropdownView()
 
         embed = Embed(title="Help", description=f"Get some help about commands", color=Color.get_color("lite"), timestamp=datetime.datetime.utcnow())
-        await ctx.response.send_message(embed=embed, view=view, ephemeral=True)
+        await ctx.respond(embed=embed, view=view, ephemeral=True)
 
         log = {
             "action": "help", 

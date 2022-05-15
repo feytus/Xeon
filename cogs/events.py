@@ -14,6 +14,7 @@ from discord import ApplicationCommandInvokeError, Bot, ApplicationContext, Embe
 from utils.warning import Warning
 from utils.color import Color
 from utils.config import Config
+from utils.database import Database
 from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
@@ -23,7 +24,7 @@ class Events(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
         self.config = Config()
-        self.warning = Warning(bot)
+        self.warning = Warning()
         self.imgur = pyimgur.Imgur(os.getenv("IMGUR_CLIENT_ID"))
 
         self.xeon = """
@@ -41,9 +42,14 @@ class Events(commands.Cog):
         logger.info(msg="latency : " + str(round(self.bot.latency * 1000)) + " ms")
 
         for guild in self.bot.guilds:
-            if not self.config.is_config(guild):
-                self.config.config_server(guild)
-                logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
+            if not Database.check_config(guild.id):
+                if not self.config.is_config(guild):
+                    self.config.config_server(guild)
+                    logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
+            else:
+                if not Database.check_guild_config(guild.id):
+                    Database.create_guild_collection(guild.id)
+                    logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
 
         log = {"action": "on_ready"}
 
@@ -93,11 +99,15 @@ class Events(commands.Cog):
     async def captcha_check(self, user: Member):
         guild = user.guild
 
-        default_role = guild.get_role(self.config.get_config(guild, "default_role"))
+        if not Database.check_config(user.guild.id):
+            role_id = self.config.get_config(guild.id, "default_role")
+        else:
+            role_id  = Database.get_config(guild.id).get("default_role")
+
+        default_role = guild.get_role(role_id)
 
         if default_role is None:
             return False
-
 
         if len(os.listdir(f"data/{guild.id}/captcha/")) >= 10:
             for file in os.listdir(f"data/{guild.id}/captcha/"):
@@ -147,9 +157,8 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, user: Member):
-        user = user.guild.get_member(user.id)
-
-        self.warning.new_member(user, user.guild)
+        if not Database.check_config(user.guild.id):
+            self.warning.new_member(user, user.guild.id)
 
         if user.guild.system_channel is not None:
             embed = Embed(title=f"Welcome {user} !",
@@ -171,20 +180,28 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild: Guild):
-        if not self.config.is_config(guild):
-            self.config.config_server(guild)
-            logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
+        if not Database.check_config(guild.id):
+            if not self.config.is_config(guild):
+                self.config.config_server(guild)
+                logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
+        else:
+            if not Database.check_guild_config(guild.id):
+                Database.create_guild_collection(guild.id)
+                logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
             
         log = {
             "action": "on_guild_join",
             "guild": {"id": guild.id, "name": guild.name},
-            "is configured": self.config.is_config(guild)
+            "is configured": (self.config.is_config(guild) or Database.check_guild_config(guild.id))
         }
 
         logger.info(log)  
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild: Guild):
+        if Database.check_config(guild.id):
+            Database.delete_guild(guild.id)
+
         log = {
             "action": "on_guild_remove",
             "guild": {"id": guild.id, "name": guild.name}

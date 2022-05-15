@@ -18,6 +18,7 @@ all_commands = {
             "config_server": {"description": "Configure the bot for the discord", "utilisation": "/config [channel]"},
             "get_config": {"description": "Get the configuration of the bot for the discord", "utilisation": "/get_config"},
             "server_info": {"description": "Get some informations about the discord", "utilisation": "/server_info"},
+            "ping": {"description": "Get the ping of the bot", "utilisation": "/ping"},
             }
 
 command = [SelectOption(label=command[0], description=command[1]['description']) for command in all_commands.items()]

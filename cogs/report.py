@@ -8,6 +8,7 @@ from discord.ext.commands import bot_has_permissions, has_permissions
 from utils.embed_logging import EmbedLogging
 from utils.logs import logger
 from utils.config import Config
+from utils.database import Database
 
 guilds=[809410416685219853, 803981117069852672]
 

@@ -6,6 +6,7 @@ from discord import User, Guild, Embed, ApplicationContext, Bot, option, default
 from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.config import Config
+from utils.database import Database
 from utils.embed_logging import EmbedLogging
 from utils.color import Color
 from utils.logs import logger
@@ -61,9 +62,14 @@ class Unban(commands.Cog):
 
         await ctx.respond(embed=embed, ephemeral=True)
 
-        channel_logging = self.bot.get_channel(
-            self.config.get_config(ctx.guild).get("logging_channel")
-        )
+        if not Database.check_config(ctx.guild.id):
+            channel_logging = self.bot.get_channel(
+                self.config.get_config(ctx.guild).get("logging_channel")
+            )
+        else:
+            channel_logging = self.bot.get_channel(
+                Database.get_config(ctx.guild.id).get("logging_channel")
+            )
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(

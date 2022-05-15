@@ -9,6 +9,7 @@ from utils.logs import logger
 from utils.color import Color
 from utils.utils import time_to_second
 from utils.config import Config
+from utils.database import Database
 from utils.embed_logging import EmbedLogging
 
 guilds = [809410416685219853, 803981117069852672]
@@ -48,9 +49,14 @@ class Timeout(commands.Cog):
         
         await user.send(embed=embed_user)
 
-        channel_logging = self.bot.get_channel(
-            self.config.get_config(ctx.guild).get("logging_channel")
-        )
+        if not Database.check_config(ctx.guild.id):
+            channel_logging = self.bot.get_channel(
+                self.config.get_config(ctx.guild).get("logging_channel")
+            )
+        else:
+            channel_logging = self.bot.get_channel(
+                Database.get_config(ctx.guild.id).get("logging_channel")
+            )
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(

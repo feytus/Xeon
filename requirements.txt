@@ -1,6 +1,7 @@
 twitch-info
-py-cord==2.0.0b5
+py-cord==2.0.0b7
 python-dotenv
 colorama
 captcha
 pyimgur
+pymongo[srv]

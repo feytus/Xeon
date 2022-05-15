@@ -6,6 +6,7 @@ from discord.abc import GuildChannel
 
 from utils.color import Color
 from utils.config import Config
+from utils.database import Database
 from utils.logs import logger
 
 class Logging(commands.Cog):
@@ -15,7 +16,13 @@ class Logging(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, before: Member, after: Member):
-        logging_channel = self.bot.get_channel(self.config.get_config(after.guild, "logging_channel"))
+        if not Database.check_config(after.guild.id):
+            channel_id = self.config.get_config(after.guild, "logging_channel")
+        else:
+            channel_id = Database.get_config(after.guild.id).get("logging_channel")
+
+        logging_channel = self.bot.get_channel(channel_id)
+        
 
         embed_logging = Embed(title="Logging", description=f"**{after.mention} has updated his profile**", color=Color.get_color("lite"))
         embed_logging.set_thumbnail(url=after.display_avatar)
@@ -58,7 +65,13 @@ class Logging(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel: GuildChannel):
-        logging_channel = self.bot.get_channel(self.config.get_config(channel.guild, "logging_channel"))
+        if not Database.check_config(channel.guild.id):
+            channel_id = self.config.get_config(channel.guild, "logging_channel")
+        else:
+            channel_id = Database.get_config(channel.guild.id).get("logging_channel")
+
+        logging_channel = self.bot.get_channel(channel_id)
+
         embed_logging = Embed(title="Logging", description=f"**The channel {channel.mention} has been deleted**", color=Color.get_color("lite"))
         embed_logging.set_thumbnail(url=channel.guild.icon)
         embed_logging.timestamp = datetime.datetime.utcnow()
@@ -71,7 +84,12 @@ class Logging(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel: GuildChannel):
-        logging_channel = self.bot.get_channel(self.config.get_config(channel.guild, "logging_channel"))
+        if not Database.check_config(channel.guild.id):
+            channel_id = self.config.get_config(channel.guild, "logging_channel")
+        else:
+            channel_id = Database.get_config(channel.guild.id).get("logging_channel")
+
+        logging_channel = self.bot.get_channel(channel_id)
 
         embed_logging = Embed(title="Logging", description=f"**The channel {channel.mention} has been created**", color=Color.get_color("lite"))
         embed_logging.set_thumbnail(url=channel.guild.icon)
@@ -132,7 +150,12 @@ class Logging(commands.Cog):
         if before.content == after.content:
             return False
 
-        logging_channel = self.bot.get_channel(self.config.get_config(channel.guild, "logging_channel"))
+        if not Database.check_config(channel.guild.id):
+            channel_id = self.config.get_config(channel.guild, "logging_channel")
+        else:
+            channel_id = Database.get_config(channel.guild.id).get("logging_channel")
+
+        logging_channel = self.bot.get_channel(channel_id)
 
         embed_logging = Embed(title="Logging", description=f"**{before.author.mention} edited a message in {channel.mention}**", color=Color.get_color("lite"))
         embed_logging.add_field(name="Content", value=f"**{before.content} :arrow_right: {after.content}**", inline=False)

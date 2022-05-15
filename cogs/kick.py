@@ -7,6 +7,7 @@ from discord import Member, Bot, Embed, ApplicationContext, option, default_perm
 
 from utils.embed_logging import EmbedLogging
 from utils.config import Config
+from utils.database import Database
 from utils.color import Color
 from utils.logs import logger
 
@@ -43,9 +44,14 @@ class Kick(commands.Cog):
                 timestamp=datetime.datetime.utcnow()), 
             ephemeral=True)
 
-        channel_logging = self.bot.get_channel(
-            self.config.get_config(ctx.guild).get("logging_channel")
-        )
+        if not Database.check_config(ctx.guild.id):
+            channel_logging = self.bot.get_channel(
+                self.config.get_config(ctx.guild).get("logging_channel")
+            )
+        else:
+            channel_logging = self.bot.get_channel(
+                Database.get_config(ctx.guild.id).get("logging_channel")
+            )
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(
