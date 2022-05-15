@@ -42,7 +42,10 @@ class Tempban(commands.Cog):
         embed_user.add_field(name="Duration", value=f"{duration} {time}(s)", inline=True)
         embed_user.set_thumbnail(url=ctx.author.display_avatar)
         embed_user.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon)
-        await user.send(embed=embed_user)
+        try:
+            await user.send(embed=embed_user)
+        except:
+            pass
 
         time_duration: timedelta = time_to_second(time, duration)
         await ctx.guild.ban(user, reason=reason)

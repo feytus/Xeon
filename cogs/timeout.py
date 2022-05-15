@@ -47,7 +47,10 @@ class Timeout(commands.Cog):
 
         await user.timeout_for(time_duration, reason=reason)
         
-        await user.send(embed=embed_user)
+        try:
+            await user.send(embed=embed_user)
+        except:
+            pass
 
         if not Database.check_config(ctx.guild.id):
             channel_logging = self.bot.get_channel(

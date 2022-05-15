@@ -45,7 +45,10 @@ class Warn(commands.Cog):
         embed_user.add_field(name="Reason", value=reason, inline=True)
         embed_user.set_thumbnail(url=ctx.author.display_avatar)
         embed_user.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon)
-        await user.send(embed=embed_user)
+        try:
+            await user.send(embed=embed_user)
+        except:
+            pass
 
         embed=Embed(
             description=f"**{user}** has been **warned** :white_check_mark:", 
@@ -128,7 +131,6 @@ class Warn(commands.Cog):
 
         guild: Guild = ctx.guild
 
-        
         if not Database.check_config(guild.id):
             self.warning.new_member(user=user, guild=guild)
             self.warning.remove_warning(guild=guild, user=user, warning_index=warning_id)
