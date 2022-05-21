@@ -169,7 +169,10 @@ class Events(commands.Cog):
 
             await user.guild.system_channel.send(embed=embed)
 
-        await self.captcha_check(user)
+        if Database.check_config(user.guild.id):
+            if Database.get_config(user.guild.id).get("default_role") is not None:
+                await self.captcha_check(user)
+
         log = {
             "action": "on_member_join", 
             "user": {"id": user.id, "name": user.name+"-"+user.discriminator},
