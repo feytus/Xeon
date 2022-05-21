@@ -1,9 +1,7 @@
 from genericpath import isfile
 import os
 
-packages = [module for module in open('requirements.txt').read().split('\n') if module]
-
-[os.system(f'pip install {package}') for package in packages]
+os.system('pip install -r requirements.txt')
 os.system('cls')
 
 if not isfile('.env'):
