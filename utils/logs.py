@@ -3,7 +3,6 @@ import os
 import datetime
 import sys
 
-from colorama import Fore
 from logging import LogRecord
 
 
