@@ -3,5 +3,6 @@ py-cord==2.0.0b7
 python-dotenv
 captcha
 pyimgur
+colorama
 pymongo[srv]
 dnspython
