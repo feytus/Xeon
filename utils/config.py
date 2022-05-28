@@ -4,7 +4,7 @@ import os
 from discord import Bot, Guild
 
 class Config:
-    def config_element(self, guild: Guild, element: str, value: str):
+    def config_element(guild: Guild, element: str, value: str):
         if not Config.is_config(guild):
             Config.config_server(guild)
 
@@ -28,12 +28,12 @@ class Config:
         if not os.path.exists(f'data/{guild.id}/captcha'):
             os.mkdir(f'data/{guild.id}/captcha')
 
-        if not self.is_config(guild, "WARNINGS_FILE"):
+        if not Config.is_config(guild, "WARNINGS_FILE"):
             with open(f'data/{guild.id}/warnings.json', 'w') as file:
                 file.write("{}")
                 file.close()
         
-        if not self.is_config(guild, "CONFIG_FILE"):
+        if not Config.is_config(guild, "CONFIG_FILE"):
             with open(f'data/{guild.id}/config.json', 'w') as file:
                 file.write("{}")
                 file.close()
@@ -67,7 +67,7 @@ class Config:
                 
         return True
     
-    def get_config(self, guild: Guild, element: str=None):
+    def get_config(guild: Guild, element: str=None):
         with open(f'data/{guild.id}/config.json', 'r') as file:
             config: dict = json.loads(file.read())
             file.close()
