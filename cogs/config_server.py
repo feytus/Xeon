@@ -22,7 +22,6 @@ class ServerConfig(commands.Cog):
     @slash_command(name="config_server", description="Configure the bot for the discord", guilds_ids=guilds_ids)
     @option(name="item", type=str, description="The item to configure", choices=["logging channel", "report channel", "default role"])
     @default_permissions(administrator=True)
-    @has_permissions(administrator=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
     async def config_server(self, ctx: ApplicationContext, item: str):
         await ctx.defer(ephemeral=True)
