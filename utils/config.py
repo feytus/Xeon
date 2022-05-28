@@ -5,8 +5,8 @@ from discord import Bot, Guild
 
 class Config:
     def config_element(self, guild: Guild, element: str, value: str):
-        if not self.is_config(guild):
-            Config_server(guild)
+        if not Config.is_config(guild):
+            Config.config_server(guild)
 
         with open(f'data/{guild.id}/config.json', 'r') as file:
             config: dict = json.loads(file.read())
@@ -38,7 +38,7 @@ class Config:
                 file.write("{}")
                 file.close()
                 
-    def is_config(self, guild: Guild, element: str=None):
+    def is_config(guild: Guild, element: str=None):
         elements = {
             "GUILD_FOLDER": f'data/{guild.id}',
             "CAPTCHA_FOLDER": f'data/{guild.id}/CAPTCHA',
