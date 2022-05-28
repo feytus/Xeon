@@ -9,7 +9,7 @@ import os
 from captcha.image import ImageCaptcha
 
 from discord.ext import commands
-from discord import ApplicationCommandInvokeError, Bot, ApplicationContext, Embed, Member, Guild, PermissionOverwrite, Message
+from discord import ApplicationCommandInvokeError, Bot, ApplicationContext, Embed, Member, Guild, PermissionOverwrite, Message, ui
 
 from utils.warning import Warning
 from utils.color import Color
@@ -19,7 +19,21 @@ from utils.logs import logger
 
 guilds=[809410416685219853, 803981117069852672]
 
-
+class ReportView(ui.View):
+    def __init__(self, error_dict: dict):
+        super().__init__(timeout=30)
+        self.error_dict = error_dict
+        
+    @ui.button(
+        label="Report bug",
+        style=discord.ButtonStyle.grey,
+        custom_id="report_view:report_bug",
+    )
+    async def report(self, button: discord.ui.Button, interaction: discord.Interaction):        
+        Database.report_bug(self.error_dict)
+        embed = Embed(title="Report bug", description=":white_check_mark: The **bug has been reported**, we will make sure to **fix it as soon as possible**.", color=Color.get_color("lite"))
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+    
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
@@ -39,6 +53,8 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print(self.xeon)
+        
+        logger.info(f"Logged in as {self.bot.user} (ID: {self.bot.user.id})")
         logger.info(msg="latency : " + str(round(self.bot.latency * 1000)) + " ms")
 
         for guild in self.bot.guilds:
@@ -57,16 +73,42 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_application_command_error(self, ctx: ApplicationContext, error):
+        error_dict = {
+            "name": ctx.command.name,
+            "options": [{key: value for key, value in options.items() if key != "type"} for options in ctx.selected_options] if ctx.selected_options is not None else None,
+            "author_id": ctx.author.id,
+            "guild_id": ctx.guild.id,
+            "error": str(error),
+            "date": datetime.datetime.now().timestamp()
+        }
+        
+        view = ReportView(error_dict)
+        
         if isinstance(error, ApplicationCommandInvokeError):
-            await ctx.respond(
-                embed=Embed(
-                    title="Error",
-                    description="Try later !",
-                    color=Color.get_color("sanction"),
-                    timestamp=datetime.datetime.utcnow()
-                ),
-                ephemeral=True
-            )
+            if not Database.check_config(ctx.guild.id):
+                await ctx.respond(
+                    embed=Embed(
+                        title="Error",
+                        description="The bot is still in **BETA version so it may have bugs**.",
+                        color=Color.get_color("sanction"),
+                        timestamp=datetime.datetime.utcnow()
+                    ),
+                    view=view,
+                    ephemeral=True,
+                    delete_after=10
+                )
+            else:
+                await ctx.respond(
+                    embed=Embed(
+                        title="Error",
+                        description="The bot is still in **BETA version so it may have bugs**. Thank you for the **report by clicking on the button**.",
+                        color=Color.get_color("sanction"),
+                        timestamp=datetime.datetime.utcnow()
+                    ),
+                    view=view,
+                    ephemeral=True,
+                    delete_after=10
+                )
         else:
             await ctx.respond(
                 embed=Embed(

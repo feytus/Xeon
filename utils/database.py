@@ -126,4 +126,9 @@ class Database:
     def delete_guild(guid_id: int):
         collection = guild_db[str(guid_id)]
         collection.drop()
+        
+    def report_bug(error_dict: dict):
+        collection = guild_db["bugs"]
+        
+        collection.insert_one(error_dict)
 
