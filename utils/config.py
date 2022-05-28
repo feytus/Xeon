@@ -18,7 +18,7 @@ class Config:
             file.write(json.dumps(config, indent=5))
             file.close()
 
-    def config_server(self, guild: Guild):
+    def config_server(guild: Guild):
         if not os.path.exists(f'data/'):
             os.mkdir('data')
         
