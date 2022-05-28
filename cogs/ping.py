@@ -7,8 +7,7 @@ from discord.ext.commands import slash_command
 
 from utils.color import Color
 from utils.logs import logger
-
-guilds = [809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class Ping(commands.Cog):
     def __init__(self, bot):

@@ -11,8 +11,7 @@ from utils.utils import time_to_second
 from utils.config import Config
 from utils.database import Database
 from utils.embed_logging import EmbedLogging
-
-guilds = [809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 
 class Timeout(commands.Cog):

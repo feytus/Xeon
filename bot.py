@@ -6,8 +6,6 @@ from discord.ext import commands
 
 from dotenv import load_dotenv
 
-from utils.utils import guilds_ids
-
 start = time.perf_counter()
 
 intents = Intents.all()
