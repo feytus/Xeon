@@ -15,7 +15,7 @@ class UserInfo(commands.Cog):
 
     @has_permissions(manage_roles=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
-    @slash_command(name="user_info", description="Get some informations about a member of the discord", guilds_ids=guilds_ids)
+    @slash_command(name="user_info", description="Get some informations about a member of the discord")
     @option(name="user", type=Member, description="The user to get informations from", required=False)
     async def user_info(self, ctx: ApplicationContext, user: Member):
         await ctx.defer(ephemeral=True)

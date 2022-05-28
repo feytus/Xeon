@@ -55,7 +55,7 @@ class HelpCommand(commands.Cog):
 
     @bot_has_permissions(send_messages=True, read_messages=True)
     @default_permissions(send_messages=True, read_messages=True)
-    @slash_command(name="help", description="Get some help about commands", guilds_ids=guilds_ids)
+    @slash_command(name="help", description="Get some help about commands")
     async def help(self, ctx: ApplicationContext):
         await ctx.defer(ephemeral=True)
 

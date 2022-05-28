@@ -23,7 +23,7 @@ class Warn(commands.Cog):
     @default_permissions(manage_roles=True)
     @has_permissions(manage_roles=True)
     @bot_has_permissions(send_messages=True, read_messages=True)  
-    @slash_command(name="warn", description="Warn a member of the discord", guilds_ids=guilds_ids)  
+    @slash_command(name="warn", description="Warn a member of the discord")  
     @option(name="user", type=Member, description="The user to warn")
     @option(name="reason", type=str, description="The reason for warning")
     async def warn(self, ctx: ApplicationContext, user: Member, reason: str):
@@ -81,7 +81,7 @@ class Warn(commands.Cog):
 
     @has_permissions(manage_roles=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
-    @slash_command(name="warnings", description="Get a list of warnings from a member of the discord", guilds_ids=guilds_ids)
+    @slash_command(name="warnings", description="Get a list of warnings from a member of the discord")
     @option(name="user", type=Member, description="The user to get the warnings")
     async def warnings(self, ctx: ApplicationContext, user: Member):
         await ctx.defer(ephemeral=True)
@@ -121,7 +121,7 @@ class Warn(commands.Cog):
 
     @has_permissions(manage_roles=True)
     @bot_has_permissions(send_messages=True, read_messages=True)  
-    @slash_command(name="remove_warning", description="Remove a warning from a member of the discord", guilds_ids=guilds_ids)
+    @slash_command(name="remove_warning", description="Remove a warning from a member of the discord")
     @option(name="user", type=Member, description="The user to remove the warning")
     @option(name="warning_id", type=int, description="The id of the warning to remove", required=False)
     async def remove_warning(self, ctx: ApplicationContext, user: Member, warning_id: int):

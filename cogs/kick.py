@@ -17,7 +17,7 @@ class Kick(commands.Cog):
         self.bot: Bot = bot
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="kick", description="Kick a member of the discord", guilds_ids=guilds_ids)
+    @slash_command(name="kick", description="Kick a member of the discord")
     @option(name="user", type=Member, description="The user to kick")
     @option(name="reason", type=str, description="The reason for kicking")
     @default_permissions(kick_members=True)

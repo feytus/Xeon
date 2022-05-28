@@ -17,7 +17,7 @@ class Ban(commands.Cog):
         self.bot: Bot = bot
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="ban", description="Ban a member of the discord", guilds_ids=guilds_ids)
+    @slash_command(name="ban", description="Ban a member of the discord")
     @option(name="user", type=Member, description="The user to ban")
     @option(name="reason", type=str, description="The reason for banning")
     @default_permissions(ban_members=True)

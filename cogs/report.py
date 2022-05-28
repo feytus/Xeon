@@ -15,7 +15,7 @@ class Report(commands.Cog):
         self.bot: Bot = bot
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="report", description="Report a member of the discord", guilds_ids=guilds_ids)
+    @slash_command(name="report", description="Report a member of the discord")
     @option(name="user", type=Member, description="The user to report")
     @option(name="reason", type=str, description="The reason for reporting")
     @option(name="proof", type=Attachment, description="The proof of the report", required=False)

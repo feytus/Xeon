@@ -20,7 +20,7 @@ class Unban(commands.Cog):
     @default_permissions(ban_members=True)
     @has_permissions(ban_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, ban_members=True)
-    @slash_command(name="unban", description="Unban a banned member", guilds_ids=guilds_ids)
+    @slash_command(name="unban", description="Unban a banned member")
     @option(name="user", type=str, description="The user to unban : exemple#1234 or the user ID")
     @option(name="reason", type=str, description="The reason for unbanning")
     async def unban(self, ctx: ApplicationContext, user: str, reason: str="No reason given"):

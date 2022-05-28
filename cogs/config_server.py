@@ -19,7 +19,7 @@ class ServerConfig(commands.Cog):
         self.bot: Bot = bot
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="config_server", description="Configure the bot for the discord", guilds_ids=guilds_ids)
+    @slash_command(name="config_server", description="Configure the bot for the discord")
     @option(name="item", type=str, description="The item to configure", choices=["logging channel", "report channel", "default role"])
     @default_permissions(administrator=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
@@ -140,7 +140,7 @@ class ServerConfig(commands.Cog):
 
         logger.info(log)
 
-    @slash_command(name="get_config", description="Get the configuration of the bot for the server", guilds_ids=guilds_ids)
+    @slash_command(name="get_config", description="Get the configuration of the bot for the server")
     @has_permissions(administrator=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
     async def get_config(self, ctx: ApplicationContext):

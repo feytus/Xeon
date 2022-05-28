@@ -16,7 +16,7 @@ class Clear(commands.Cog):
         self.bot: Bot = bot
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="clear", description="Clear the channel", guilds_ids=guilds_ids)
+    @slash_command(name="clear", description="Clear the channel")
     @option(name="amount", type=int, description="The amount of messages to delete", required=False)
     @default_permissions(manage_messages=True)
     @has_permissions(manage_messages=True)

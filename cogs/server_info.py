@@ -13,7 +13,7 @@ class ServerInfo(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
 
-    @slash_command(name="server_info", description="Get some informations about the discord", guilds_ids=guilds_ids)
+    @slash_command(name="server_info", description="Get some informations about the discord")
     @bot_has_permissions(send_messages=True, read_messages=True)
     async def server_info(self, ctx: ApplicationContext):
         await ctx.defer(ephemeral=True)
