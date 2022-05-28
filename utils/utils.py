@@ -22,7 +22,9 @@ all_commands = {
             }
 
 command = [SelectOption(label=command[0], description=command[1]['description']) for command in all_commands.items()]
- 
+
+guilds_ids=[809410416685219853, 803981117069852672]
+
 
 def time_to_second(time, duration):
     duration = int(duration)

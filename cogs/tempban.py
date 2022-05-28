@@ -15,8 +15,7 @@ from utils.logs import logger
 from utils.embed_logging import EmbedLogging
 from utils.config import Config
 from utils.database import Database
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class Tempban(commands.Cog):
     def __init__(self, bot):
@@ -27,7 +26,7 @@ class Tempban(commands.Cog):
     @default_permissions(ban_members=True)
     @has_permissions(ban_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, ban_members=True)
-    @slash_command(name="tempban", description="Temporarily ban member of the discord", guild_ids=guilds)
+    @slash_command(name="tempban", description="Temporarily ban member of the discord", guilds_ids=guilds_ids)
     @option(name="user", type=Member, description="The user to tempban")
     @option(name="duration", type=int)
     @option(name="time", type=str, choices=["second", "minute", "hour", "day", "week", "month"])

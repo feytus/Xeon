@@ -10,8 +10,7 @@ from utils.config import Config
 from utils.database import Database
 from utils.color import Color
 from utils.logs import logger
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class Kick(commands.Cog):
     def __init__(self, bot):
@@ -19,7 +18,7 @@ class Kick(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="kick", description="Kick a member of the discord", guild_ids=guilds)
+    @slash_command(name="kick", description="Kick a member of the discord", guilds_ids=guilds_ids)
     @option(name="user", type=Member, description="The user to kick")
     @option(name="reason", type=str, description="The reason for kicking")
     @default_permissions(kick_members=True)

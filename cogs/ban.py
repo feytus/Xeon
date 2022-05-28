@@ -10,8 +10,7 @@ from utils.config import Config
 from utils.database import Database
 from utils.logs import logger
 from utils.color import Color
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class Ban(commands.Cog):
     def __init__(self, bot):
@@ -19,7 +18,7 @@ class Ban(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="ban", description="Ban a member of the discord", guild_ids=guilds)
+    @slash_command(name="ban", description="Ban a member of the discord", guilds_ids=guilds_ids)
     @option(name="user", type=Member, description="The user to ban")
     @option(name="reason", type=str, description="The reason for banning")
     @default_permissions(ban_members=True)

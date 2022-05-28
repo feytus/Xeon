@@ -6,13 +6,13 @@ from discord.ext import commands
 
 from dotenv import load_dotenv
 
+from utils.utils import guilds_ids
+
 start = time.perf_counter()
 
 intents = Intents.all()
 
 bot = commands.Bot(command_prefix=".", intents=intents)
-
-guilds=[809410416685219853, 803981117069852672]
 
 load_dotenv()
 

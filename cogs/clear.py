@@ -9,8 +9,7 @@ from utils.embed_logging import EmbedLogging
 from utils.logs import logger
 from utils.config import Config
 from utils.database import Database
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class Clear(commands.Cog):
     def __init__(self, bot):
@@ -18,7 +17,7 @@ class Clear(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="clear", description="Clear the channel", guild_ids=guilds)
+    @slash_command(name="clear", description="Clear the channel", guilds_ids=guilds_ids)
     @option(name="amount", type=int, description="The amount of messages to delete", required=False)
     @default_permissions(manage_messages=True)
     @has_permissions(manage_messages=True)

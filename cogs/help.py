@@ -8,8 +8,7 @@ from discord import ApplicationContext, Embed, Interaction, SelectOption, slash_
 from utils.utils import all_commands
 from utils.color import Color
 from utils.logs import logger
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class Dropdown(discord.ui.Select):
     def __init__(self):
@@ -56,7 +55,7 @@ class HelpCommand(commands.Cog):
 
     @bot_has_permissions(send_messages=True, read_messages=True)
     @default_permissions(send_messages=True, read_messages=True)
-    @slash_command(name="help", description="Get some help about commands", guild_ids=guilds)
+    @slash_command(name="help", description="Get some help about commands", guilds_ids=guilds_ids)
     async def help(self, ctx: ApplicationContext):
         await ctx.defer(ephemeral=True)
 

@@ -24,7 +24,7 @@ class Timeout(commands.Cog):
     @default_permissions(moderate_members=True)
     @has_permissions(moderate_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, moderate_members=True)
-    @slash_command(name="timeout", description="Timeout a member of the discord", guild_ids=guilds)
+    @slash_command(name="timeout", description="Timeout a member of the discord", guilds_ids=guilds_ids)
     @option(name="user", type=Member, description="The user to time out")
     @option(name="duration", type=int)
     @option(name="time", type=str, choices=["second", "minute", "hour", "day", "week", "month"])

@@ -16,8 +16,7 @@ from utils.color import Color
 from utils.config import Config
 from utils.database import Database
 from utils.logs import logger
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class ReportView(ui.View):
     def __init__(self, error_dict: dict):

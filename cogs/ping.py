@@ -14,7 +14,7 @@ class Ping(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
     
-    @slash_command(name="ping", description="Get the bots response time", guild_ids=guilds)
+    @slash_command(name="ping", description="Get the bots response time", guilds_ids=guilds_ids)
     async def ping(self, ctx: ApplicationContext):
         await ctx.defer(ephemeral=True)
 

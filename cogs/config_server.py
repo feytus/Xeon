@@ -12,8 +12,7 @@ from utils.logs import logger
 from utils.config import Config
 from utils.database import Database
 from utils.embed_logging import EmbedLogging
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class ServerConfig(commands.Cog):
     def __init__(self, bot):
@@ -21,7 +20,7 @@ class ServerConfig(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="config_server", description="Configure the bot for the discord", guild_ids=guilds)
+    @slash_command(name="config_server", description="Configure the bot for the discord", guilds_ids=guilds_ids)
     @option(name="item", type=str, description="The item to configure", choices=["logging channel", "report channel", "default role"])
     @default_permissions(administrator=True)
     @has_permissions(administrator=True)
@@ -143,7 +142,7 @@ class ServerConfig(commands.Cog):
 
         logger.info(log)
 
-    @slash_command(name="get_config", description="Get the configuration of the bot for the server", guild_ids=guilds)
+    @slash_command(name="get_config", description="Get the configuration of the bot for the server", guilds_ids=guilds_ids)
     @has_permissions(administrator=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
     async def get_config(self, ctx: ApplicationContext):

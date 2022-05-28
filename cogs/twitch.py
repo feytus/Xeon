@@ -11,8 +11,7 @@ from os import getenv
 from utils.color import Color
 
 from utils.logs import logger
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 
 class TwitchInfo(commands.Cog):
@@ -20,7 +19,7 @@ class TwitchInfo(commands.Cog):
         self.bot: Bot = bot
 
     @bot_has_permissions(send_messages=True, read_messages=True)
-    @slash_command(name="twitch_info", description="Get some informations about a twitch channel", guild_ids=guilds)
+    @slash_command(name="twitch_info", description="Get some informations about a twitch channel", guilds_ids=guilds_ids)
     @option(name="twitch_channel", type=str, description="The twitch channel to get informations from")
     async def twitch_info(self, ctx: ApplicationContext, twitch_channel: str):
         await ctx.defer(ephemeral=True)

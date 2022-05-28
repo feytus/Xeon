@@ -7,8 +7,7 @@ from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.color import Color
 from utils.logs import logger
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class UserInfo(commands.Cog):
     def __init__(self, bot):
@@ -16,7 +15,7 @@ class UserInfo(commands.Cog):
 
     @has_permissions(manage_roles=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
-    @slash_command(name="user_info", description="Get some informations about a member of the discord", guild_ids=guilds)
+    @slash_command(name="user_info", description="Get some informations about a member of the discord", guilds_ids=guilds_ids)
     @option(name="user", type=Member, description="The user to get informations from", required=False)
     async def user_info(self, ctx: ApplicationContext, user: Member):
         await ctx.defer(ephemeral=True)

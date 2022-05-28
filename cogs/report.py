@@ -8,8 +8,7 @@ from discord.ext.commands import bot_has_permissions, has_permissions
 from utils.embed_logging import EmbedLogging
 from utils.logs import logger
 from utils.config import Config
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class Report(commands.Cog):
     def __init__(self, bot):
@@ -17,7 +16,7 @@ class Report(commands.Cog):
         self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
-    @slash_command(name="report", description="Report a member of the discord", guild_ids=guilds)
+    @slash_command(name="report", description="Report a member of the discord", guilds_ids=guilds_ids)
     @option(name="user", type=Member, description="The user to report")
     @option(name="reason", type=str, description="The reason for reporting")
     @option(name="proof", type=Attachment, description="The proof of the report", required=False)

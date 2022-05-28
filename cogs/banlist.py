@@ -7,14 +7,13 @@ from discord.ext.commands import bot_has_permissions, has_permissions
 
 from utils.color import Color
 from utils.logs import logger
-
-guilds=[809410416685219853, 803981117069852672]
+from utils.utils import guilds_ids
 
 class BanList(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot  
 
-    @slash_command(name="ban_list", description="Get a list of all banned members", guild_ids=guilds)
+    @slash_command(name="ban_list", description="Get a list of all banned members", guilds_ids=guilds_ids)
     @default_permissions(ban_members=True)
     @has_permissions(ban_members=True)
     @bot_has_permissions(send_messages=True, read_messages=True, ban_members=True)
