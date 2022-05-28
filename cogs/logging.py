@@ -49,7 +49,7 @@ class Logging(commands.Cog):
             "roles": after_roles,
             "pending": after.pending,
         }
-
+        
         for key in info_after.keys():
             if info_after[key] != info_before[key]:
                 if key == "roles":
@@ -60,8 +60,8 @@ class Logging(commands.Cog):
         if logging_channel is not None and len(embed_logging.fields) > 0:
             await logging_channel.send(embed=embed_logging)
 
-        log = {"action": "on_member_update", "user": after.id, "guild": after.guild.id}
-        logger.info(log)
+            log = {"action": "on_member_update", "user": after.id, "guild": after.guild.id}
+            logger.info(log)
 
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel: GuildChannel):
