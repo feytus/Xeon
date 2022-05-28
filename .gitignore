@@ -1,12 +1,11 @@
 .env
 .git
+.todo
 
 venv/
 data/
 logs/
 
 cogs/__pycache__
-
 utils/__pycache__
-
 __pycache__/
