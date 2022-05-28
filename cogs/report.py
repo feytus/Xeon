@@ -13,7 +13,6 @@ from utils.utils import guilds_ids
 class Report(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="report", description="Report a member of the discord", guilds_ids=guilds_ids)
@@ -31,10 +30,10 @@ class Report(commands.Cog):
                 timestamp=datetime.datetime.utcnow()),
             ephemeral=True)
         
-        self.config.config_element(ctx.guild, "channel_report", value=ctx.channel.id)
+        Config.config_element(ctx.guild, "channel_report", value=ctx.channel.id)
 
         channel_report = self.bot.get_channel(
-            self.config.get_config(ctx.guild).get("channel_report")
+            Config.get_config(ctx.guild).get("channel_report")
             )
 
         if channel_report is Attachment:

@@ -17,7 +17,6 @@ from utils.utils import guilds_ids
 class Warn(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config()
         self.embed_logging = EmbedLogging(bot)
         self.warning = Warning()
 
@@ -57,7 +56,7 @@ class Warn(commands.Cog):
 
         await ctx.respond(embed=embed, ephemeral=True)
 
-        channel_logging = self.bot.get_channel(self.config.get_config(ctx.guild).get("logging_channel"))
+        channel_logging = self.bot.get_channel(Config.get_config(ctx.guild).get("logging_channel"))
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(
@@ -151,7 +150,7 @@ class Warn(commands.Cog):
 
         if not Database.check_config(ctx.guild.id):
             channel_logging = self.bot.get_channel(
-                self.config.get_config(ctx.guild).get("logging_channel")
+                Config.get_config(ctx.guild).get("logging_channel")
             )
         else:
             channel_logging = self.bot.get_channel(

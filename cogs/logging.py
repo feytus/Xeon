@@ -12,12 +12,11 @@ from utils.logs import logger
 class Logging(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config()
 
     @commands.Cog.listener()
     async def on_member_update(self, before: Member, after: Member):
         if not Database.check_config(after.guild.id):
-            channel_id = self.config.get_config(after.guild, "logging_channel")
+            channel_id = Config.get_config(after.guild, "logging_channel")
         else:
             channel_id = Database.get_config(after.guild.id).get("logging_channel")
 
@@ -66,7 +65,7 @@ class Logging(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel: GuildChannel):
         if not Database.check_config(channel.guild.id):
-            channel_id = self.config.get_config(channel.guild, "logging_channel")
+            channel_id = Config.get_config(channel.guild, "logging_channel")
         else:
             channel_id = Database.get_config(channel.guild.id).get("logging_channel")
 
@@ -85,7 +84,7 @@ class Logging(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel: GuildChannel):
         if not Database.check_config(channel.guild.id):
-            channel_id = self.config.get_config(channel.guild, "logging_channel")
+            channel_id = Config.get_config(channel.guild, "logging_channel")
         else:
             channel_id = Database.get_config(channel.guild.id).get("logging_channel")
 
@@ -103,7 +102,7 @@ class Logging(commands.Cog):
     
     @commands.Cog.listener()
     async def on_guild_channel_update(self, before: GuildChannel, after: GuildChannel):
-        logging_channel = self.bot.get_channel(self.config.get_config(after.guild, "logging_channel"))
+        logging_channel = self.bot.get_channel(Config.get_config(after.guild, "logging_channel"))
 
         embed_logging = Embed(title="Logging", description=f"**The channel {before.mention} has been edited**", color=Color.get_color("lite"))
         embed_logging.set_thumbnail(url=before.guild.icon)
@@ -151,7 +150,7 @@ class Logging(commands.Cog):
             return False
 
         if not Database.check_config(channel.guild.id):
-            channel_id = self.config.get_config(channel.guild, "logging_channel")
+            channel_id = Config.get_config(channel.guild, "logging_channel")
         else:
             channel_id = Database.get_config(channel.guild.id).get("logging_channel")
 

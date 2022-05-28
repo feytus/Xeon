@@ -36,7 +36,6 @@ class ReportView(ui.View):
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config()
         self.warning = Warning()
         self.imgur = pyimgur.Imgur(os.getenv("IMGUR_CLIENT_ID"))
 
@@ -58,8 +57,8 @@ class Events(commands.Cog):
 
         for guild in self.bot.guilds:
             if not Database.check_config(guild.id):
-                if not self.config.is_config(guild):
-                    self.config.config_server(guild)
+                if not Config.is_config(guild):
+                    Config.config_server(guild)
                     logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
             else:
                 if not Database.check_guild_config(guild.id):
@@ -141,7 +140,7 @@ class Events(commands.Cog):
         guild = user.guild
 
         if not Database.check_config(user.guild.id):
-            role_id = self.config.get_config(guild.id, "default_role")
+            role_id = Config.get_config(guild.id, "default_role")
         else:
             role_id  = Database.get_config(guild.id).get("default_role")
 
@@ -225,8 +224,8 @@ class Events(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_join(self, guild: Guild):
         if not Database.check_config(guild.id):
-            if not self.config.is_config(guild):
-                self.config.config_server(guild)
+            if not Config.is_config(guild):
+                Config.config_server(guild)
                 logger.info({"action": "configuration", "guild": {"id": guild.id, "name": guild.name}})
         else:
             if not Database.check_guild_config(guild.id):
@@ -236,7 +235,7 @@ class Events(commands.Cog):
         log = {
             "action": "on_guild_join",
             "guild": {"id": guild.id, "name": guild.name},
-            "is configured": (self.config.is_config(guild) or Database.check_guild_config(guild.id))
+            "is configured": (Config.is_config(guild) or Database.check_guild_config(guild.id))
         }
 
         logger.info(log)  

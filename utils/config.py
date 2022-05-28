@@ -6,7 +6,7 @@ from discord import Bot, Guild
 class Config:
     def config_element(self, guild: Guild, element: str, value: str):
         if not self.is_config(guild):
-            self.config_server(guild)
+            Config_server(guild)
 
         with open(f'data/{guild.id}/config.json', 'r') as file:
             config: dict = json.loads(file.read())

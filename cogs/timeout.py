@@ -18,7 +18,6 @@ guilds = [809410416685219853, 803981117069852672]
 class Timeout(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
     @default_permissions(moderate_members=True)
@@ -54,7 +53,7 @@ class Timeout(commands.Cog):
 
         if not Database.check_config(ctx.guild.id):
             channel_logging = self.bot.get_channel(
-                self.config.get_config(ctx.guild).get("logging_channel")
+                Config.get_config(ctx.guild).get("logging_channel")
             )
         else:
             channel_logging = self.bot.get_channel(

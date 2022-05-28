@@ -17,7 +17,6 @@ from utils.utils import guilds_ids
 class ServerConfig(commands.Cog):
     def __init__(self, bot):
         self.bot: Bot = bot
-        self.config = Config()
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="config_server", description="Configure the bot for the discord", guilds_ids=guilds_ids)
@@ -83,8 +82,8 @@ class ServerConfig(commands.Cog):
             element = "default_role"
 
         if not Database.check_config(ctx.guild.id):
-            self.config.config_element(ctx.guild, element=element, value=int(value))
-            config = self.config.get_config(ctx.guild.id)
+            Config.config_element(ctx.guild, element=element, value=int(value))
+            config = Config.get_config(ctx.guild.id)
         else:
             Database.update_config(ctx.guild.id, element=element, value=int(value))
             config = Database.get_config(ctx.guild.id)
@@ -114,7 +113,7 @@ class ServerConfig(commands.Cog):
 
         if not Database.check_config(ctx.guild.id):
             channel_logging = self.bot.get_channel(
-                self.config.get_config(ctx.guild).get("logging_channel")
+                Config.get_config(ctx.guild).get("logging_channel")
             )
         else:
             channel_logging = self.bot.get_channel(
@@ -156,7 +155,7 @@ class ServerConfig(commands.Cog):
         embed.set_thumbnail(url=ctx.guild.icon)
 
         if not Database.check_config(ctx.guild.id):
-            config = self.config.get_config(ctx.guild)
+            config = Config.get_config(ctx.guild)
         else:
             config = Database.get_config(ctx.guild.id)
 
