@@ -35,8 +35,15 @@ class Warn(commands.Cog):
             warning = Warning(self.bot)
             warning.new_member(user=user, guild=guild)
             warning.new_warn(user=user, guild=guild, author=ctx.author, reason=reason)
+            
+            channel_logging = self.bot.get_channel(
+                Config.get_config(ctx.guild).get("logging_channel")
+                )
         else:
             Database.add_warnings(user_id=user.id, guild_id=guild.id, author_id=ctx.author.id, reason=reason)
+            channel_logging = self.bot.get_channel(
+                Database.get_config(ctx.guild.id).get("logging_channel")
+            )
 
         embed_user = Embed(description=f"**You received a warning on the server {ctx.guild.name} !**", color=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
@@ -55,8 +62,6 @@ class Warn(commands.Cog):
             )
 
         await ctx.respond(embed=embed, ephemeral=True)
-
-        channel_logging = self.bot.get_channel(Config.get_config(ctx.guild).get("logging_channel"))
 
         if channel_logging is not None:
             embed_logging = self.embed_logging.get_embed(
@@ -88,6 +93,8 @@ class Warn(commands.Cog):
 
         guild: Guild = ctx.guild
         
+        print(Database.check_config(guild.id))
+
         if not Database.check_config(guild.id):
             self.warning.new_member(user=user, guild=guild)
             warnings = self.warning.get_warnings(user=user, guild=guild)
