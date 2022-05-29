@@ -17,7 +17,7 @@ class Clear(commands.Cog):
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="clear", description="Clear the channel")
-    @option(name="amount", type=int, description="The amount of messages to delete", required=False)
+    @option(name="amount", type=int, description="The amount of messages to delete", min_value=1, max_value=30, required=False)
     @default_permissions(manage_messages=True)
     @has_permissions(manage_messages=True)
     @bot_has_permissions(send_messages=True, read_messages=True, manage_messages=True)
@@ -25,8 +25,8 @@ class Clear(commands.Cog):
         await ctx.defer(ephemeral=True)
 
         if amount == None:
-            await ctx.channel.purge(limit=100)
-            amount = 100
+            await ctx.channel.purge(limit=30)
+            amount = 30
         else:
             await ctx.channel.purge(limit=amount)
 
