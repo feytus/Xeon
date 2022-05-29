@@ -158,6 +158,8 @@ class ServerConfig(commands.Cog):
         else:
             config = Database.get_config(ctx.guild.id)
 
+        print(config)
+        
         logging_channel = config.get("logging_channel")
         report_channel = config.get("report_channel")
         default_role = config.get("default_role")
@@ -168,7 +170,8 @@ class ServerConfig(commands.Cog):
             embed.add_field(name="Report channel", value=f"<#{report_channel}>", inline=False)
         if default_role is not None:
             embed.add_field(name="Default role", value=f"<@&{default_role}>", inline=False)
-
+        if config == {}:
+            embed.description = ":warning: The **bot** is **not configured** for this server"
 
         log = {
             "action": "get_config", 
