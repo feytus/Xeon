@@ -20,35 +20,35 @@ class ServerConfig(commands.Cog):
         self.embed_logging = EmbedLogging(bot)
 
     @slash_command(name="config_server", description="Configure the bot for the discord")
-    @option(name="item", type=str, description="The item to configure", choices=["logging channel", "report channel", "default role"])
+    @option(name="element", type=str, description="The item to configure", choices=["logging channel", "report channel", "default role"])
     @default_permissions(administrator=True)
     @bot_has_permissions(send_messages=True, read_messages=True)
-    async def config_server(self, ctx: ApplicationContext, item: str):
+    async def config_server(self, ctx: ApplicationContext, element: str):
         await ctx.defer(ephemeral=True)
 
         embed = Embed(title="Configuration", color=Color.get_color("lite"), timestamp=datetime.datetime.utcnow())
         embed.set_thumbnail(url=ctx.guild.icon)
 
-        if item in ("logging channel", "report channel"):
-            embed.description=f"**Enter the ID of the {item}**"
-        elif item == "default role":
-            embed.description=f"**Enter the ID of the {item}**"
+        if element in ("logging channel", "report channel"):
+            embed.description=f"**Enter the ID of the {element}**"
+        elif element == "default role":
+            embed.description=f"**Enter the ID of the {element}**"
 
         message = await ctx.respond(embed=embed, ephemeral=True)
 
         try:
             response: Message = await self.bot.wait_for("message", check=lambda response: response.author == ctx.author, timeout=30)
         except asyncio.TimeoutError:
-            embed.description = "**You didn't enter a value in time**"
+            embed.description = ":warning: **You didn't enter a value in time**"
             await message.edit(embed=embed)
         
         value = response.content
         if value.isdigit():
-            if item in ("logging channel", "report channel"):
+            if element in ("logging channel", "report channel"):
                 guild_channel = self.bot.get_channel(int(value))
 
                 if guild_channel is None:
-                    embed.description = "**The channel doesn't exist**"
+                    embed.description = ":warning: **The channel doesn't exist**"
                     await message.edit(embed=embed)
                     await response.delete()
 
@@ -56,11 +56,11 @@ class ServerConfig(commands.Cog):
 
                 item_value = guild_channel
 
-            elif item == "default role":
+            elif element == "default role":
                 default_role = ctx.guild.get_role(int(value))
 
                 if default_role is None:
-                    embed.description = "**The role doesn't exist**"
+                    embed.description = ":warning: **The role doesn't exist**"
                     await message.edit(embed=embed)
                     await response.delete()
 
@@ -68,23 +68,23 @@ class ServerConfig(commands.Cog):
 
                 item_value = default_role
         else:
-            embed.description = "**The value isn't an ID**"
+            embed.description = ":warning: **The value isn't an ID**"
             await message.edit(embed=embed)
             await response.delete()
             return False
 
-        if item == "logging channel":
-            element = "logging_channel"
-        elif item == "report channel":
-            element = "report_channel"
-        elif item == "default role":
-            element = "default_role"
+        if element == "logging channel":
+            element_value = "logging_channel"
+        elif element == "report channel":
+            element_value = "report_channel"
+        elif element == "default role":
+            element_value = "default_role"
 
         if not Database.check_config(ctx.guild.id):
-            Config.config_element(ctx.guild, element=element, value=int(value))
+            Config.config_element(ctx.guild, element=element_value, value=int(value))
             config = Config.get_config(ctx.guild.id)
         else:
-            Database.update_config(ctx.guild.id, element=element, value=int(value))
+            Database.update_config(ctx.guild.id, element=element_value, value=int(value))
             config = Database.get_config(ctx.guild.id)
 
 
@@ -94,7 +94,7 @@ class ServerConfig(commands.Cog):
 
         embed=Embed(
             title="Configuration", 
-            description=f"**The {item} has been set to {item_value.mention}**", 
+            description=f"The **{element}** has been set to {item_value.mention}", 
             color=Color.get_color("lite"), 
             timestamp=datetime.datetime.utcnow())
 
@@ -133,7 +133,7 @@ class ServerConfig(commands.Cog):
         log = {
             "action": "config_server", 
             "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
-            "element": element,
+            "element": element_value,
             "value": value,
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
