@@ -157,8 +157,6 @@ class ServerConfig(commands.Cog):
             config = Config.get_config(ctx.guild)
         else:
             config = Database.get_config(ctx.guild.id)
-
-        print(config)
         
         logging_channel = config.get("logging_channel")
         report_channel = config.get("report_channel")
