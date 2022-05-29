@@ -28,7 +28,7 @@ class Unban(commands.Cog):
 
         guild: Guild = ctx.guild
 
-        banned_users_list = await guild.bans()
+        banned_users_list = await guild.bans().flatten()
 
         embed = Embed(title="Error", description="**This user is not banned** :white_check_mark:", colour=Color.get_color("sanction"), timestamp=datetime.datetime.utcnow())
 

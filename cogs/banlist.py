@@ -22,7 +22,7 @@ class BanList(commands.Cog):
 
         guild: Guild = ctx.guild
 
-        banned_users_list = await guild.bans()
+        banned_users_list = await guild.bans().flatten()
 
         embed = Embed(
             title="List of banned users", 
