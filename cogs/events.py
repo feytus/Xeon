@@ -103,7 +103,6 @@ class Events(commands.Cog):
                     ),
                     view=view,
                     ephemeral=True,
-                    delete_after=10
                 )
         else:
             await ctx.respond(
