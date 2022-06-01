@@ -1,5 +1,7 @@
 import datetime
 
+from datetime import timedelta
+
 from discord.ext import commands
 from discord.ext.commands import bot_has_permissions, has_permissions
 from discord.commands import slash_command
@@ -24,10 +26,9 @@ class Timeout(commands.Cog):
     @bot_has_permissions(send_messages=True, read_messages=True, moderate_members=True)
     @slash_command(name="timeout", description="Timeout a member of the discord")
     @option(name="user", type=Member, description="The user to time out")
-    @option(name="duration", type=int)
-    @option(name="time", type=str, choices=["second", "minute", "hour", "day", "week", "month"])
+    @option(name="duration", type=str, choices=["60 seconds", "5 minutes", "1 hour", "1 day", "1 week"])
     @option(name="reason", type=str, description="The reason for timing him out")
-    async def timeout(self, ctx: ApplicationContext, user: Member, duration: int, time: str, reason: str):
+    async def timeout(self, ctx: ApplicationContext, user: Member, duration: str, reason: str):
         await ctx.defer(ephemeral=True)
 
         embed_user = Embed(
@@ -37,12 +38,19 @@ class Timeout(commands.Cog):
             
         embed_user.add_field(name="Moderator", value=ctx.user.mention, inline=True)
         embed_user.add_field(name="Reason", value=reason, inline=True)
-        embed_user.add_field(name="Duration", value=f"{duration} {time}(s)", inline=True)
+        embed_user.add_field(name="Duration", value=f"{duration}", inline=True)
         embed_user.set_thumbnail(url=ctx.author.display_avatar)
         embed_user.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon)
 
-        time_duration = time_to_second(time, duration)
-
+        if duration == "60 seconds":
+            time_duration = timedelta(seconds=60)
+        elif duration == "5 minutes":
+            time_duration = timedelta(minutes=5)
+        elif duration == "1 hour":
+            time_duration = timedelta(hours=1)
+        elif duration == "1 day":
+            time_duration = timedelta(days=1)
+            
         await user.timeout_for(time_duration, reason=reason)
         
         try:
@@ -66,7 +74,6 @@ class Timeout(commands.Cog):
                     "author": ctx.user.id,
                     "user": user.id,
                     "duration": duration,
-                    "time": time,
                     "reason": reason
                 }
             )
@@ -74,7 +81,7 @@ class Timeout(commands.Cog):
 
         await ctx.respond(
             embed=Embed(
-                description=f"**{user}** has been **timed out for {duration} {time}** :white_check_mark:",
+                description=f"**{user}** has been **timed out for {duration}** :white_check_mark:",
                 color=0x40e66c,
                 timestamp=datetime.datetime.utcnow()),
             ephemeral=True)
@@ -84,7 +91,6 @@ class Timeout(commands.Cog):
             "author": {"id": ctx.user.id, "name": ctx.user.name+"#"+ctx.user.discriminator},
             "user": {"id": user.id, "name": user.name+"#"+ctx.user.discriminator}, 
             "duration": duration, 
-            "time": time, 
             "reason": reason,
             "guild": {"id": ctx.guild.id, "name": ctx.guild.name}
             }
