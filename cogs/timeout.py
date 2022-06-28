@@ -26,7 +26,7 @@ class Timeout(commands.Cog):
     @bot_has_permissions(send_messages=True, read_messages=True, moderate_members=True)
     @slash_command(name="timeout", description="Timeout a member of the discord")
     @option(name="user", type=Member, description="The user to time out")
-    @option(name="duration", type=str, choices=["60 seconds", "5 minutes", "1 hour", "1 day", "1 week"])
+    @option(name="duration", type=str, choices=["60 seconds", "5 minutes", "1 hour", "1 day", "1 week"], description="The duration of the time out")
     @option(name="reason", type=str, description="The reason for timing him out")
     async def timeout(self, ctx: ApplicationContext, user: Member, duration: str, reason: str):
         await ctx.defer(ephemeral=True)
